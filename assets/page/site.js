@@ -1,0 +1,24 @@
+/* Page wiring, loaded last: Setup guide links open the matching Setup tab, download and Pro links carry
+   GoatCounter click names (read by count.js and assets/attrib.js), and old #ideaform links reach the
+   feedback page. */
+(() => {
+  const toFeedback = () => location.hash === "#ideaform" && location.replace("feedback.html");
+  addEventListener("hashchange", toFeedback); if (toFeedback()) return;
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a[data-guide]"); if (!a) return;
+    const tab = document.querySelector(`#setup .prod button[data-p="${a.dataset.guide}"]`);
+    if (tab && !tab.classList.contains("on")) tab.click();
+  });
+  const name = (a) => {
+    const h = a.href, sec = (a.closest("section, footer") || {}).id || "nav";
+    if (/ClipoTxt-Setup.*\.exe$/i.test(h)) return `download-windows-installer-${sec}`;
+    if (/ClipoTxt.*portable.*\.zip$/i.test(h)) return `download-windows-portable-${sec}`;
+    if (/pro\.html$/.test(h)) return `pro-click-${sec}`;
+    if (/feedback\.html$/.test(h)) return `feedback-${sec}`;
+    return null;
+  };
+  document.querySelectorAll("a[href]").forEach((a) => { const n = name(a); if (n && !a.hasAttribute("data-goatcounter-click")) a.setAttribute("data-goatcounter-click", n); });
+  // decode the app screenshots while idle, so their first appearance in Two ways in never stalls a frame
+  const warm = () => document.querySelectorAll("#ways img, #setup img").forEach((img) => img.decode && img.decode().catch(() => {}));
+  addEventListener("load", () => (window.requestIdleCallback ? requestIdleCallback(warm, { timeout: 3000 }) : setTimeout(warm, 1500)));
+})();

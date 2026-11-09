@@ -1,0 +1,140 @@
+/* Setup, option A "Follow along" (picked 2026-09-30). Shared by index.html and setup.html; scoped under .guide.
+   Glass, bubble and key rows follow nus-desktop-day1/companion (renderer/styles.css, home/index.html). */
+.guide { --line:var(--c-haze-14); --line2:var(--c-haze-26); --muted:var(--c-muted); --accent:var(--c-thread); --cobaltk:var(--c-506cff);
+  --sys:var(--font-system); position:relative }
+canvas.guide-strand { position:absolute; left:0; top:0; width:0; height:0; display:none; pointer-events:none; z-index:30 }
+.guide em { color:var(--brass); font-style:italic } .guide .serif { font-family:var(--font-display); font-weight:400 }
+.guide .sec { position:relative; max-width:1180px; margin:0 auto; padding:14vh 40px 16vh }
+.guide .head { text-align:center } .guide .head .mono { color:var(--cobalt); margin-bottom:16px }
+.guide .head h2 { font-size:clamp(46px,5.6vw,76px); line-height:1 } .guide .head p { margin:16px auto 0; max-width:560px; color:var(--mist); font-size:16px; line-height:1.6 }
+.js .guide .reveal { opacity:0; transform:translateY(26px); transition:opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1) } .js .guide .reveal.in { opacity:1; transform:none }
+.guide kbd { font:600 12px var(--sys); padding:3px 8px; border-radius:6px; border:1px solid var(--c-white-22); background:var(--c-white-6); color:var(--c-white); white-space:nowrap }
+.guide a.ext { color:var(--cream); text-decoration:none; border-bottom:1px solid var(--line2) } .guide a.ext:hover { border-color:var(--cream) }
+.guide svg.os { width:14px; height:14px; fill:currentColor; vertical-align:-2px; margin-right:4px }
+
+/* app tabs */
+.guide .prod { display:flex; justify-content:center; margin-top:34px }
+.guide .prod .seg { position:relative; display:inline-flex; gap:4px; padding:5px; border-radius:999px; border:1px solid var(--line2); background:var(--c-0c1022-80) }
+.guide .prod button { position:relative; z-index:1; font:600 15px var(--font-body); color:var(--mist); background:none; border:0; border-radius:999px; padding:12px 22px; cursor:pointer; transition:color .3s }
+.guide .prod button.on { color:var(--c-night) } .guide .prod .pill { position:absolute; left:0; top:5px; bottom:5px; border-radius:999px; background:var(--cream); transition:transform .45s cubic-bezier(.2,.8,.2,1) }
+.guide .prod button:focus-visible, .guide .gsteps button:focus-visible { outline:2px solid var(--brass); outline-offset:3px }
+
+/* steps + screen */
+.guide .fa { display:grid; grid-template-columns:400px 1fr; gap:48px; align-items:start; margin-top:48px }
+.guide .gsteps { list-style:none; display:grid; gap:10px }
+.guide .gsteps button { width:100%; text-align:left; display:grid; grid-template-columns:34px 1fr; gap:14px; padding:15px 18px; border-radius:16px; border:1px solid var(--line); background:var(--c-cream-2); color:var(--cream); cursor:pointer; opacity:.7; transition:opacity .35s, border-color .35s, background .35s; font:inherit; position:relative; overflow:hidden }
+.guide .gsteps button:hover { opacity:.9 } .guide .gsteps button.on { opacity:1; border-color:var(--line2); background:var(--c-cream-5) }
+.guide .gsteps .n { width:30px; height:30px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--line2); font:500 12px var(--font-mono); color:var(--mist) }
+.guide .gsteps button.on .n { background:var(--cream); color:var(--c-night); border-color:var(--cream) }
+.guide .gsteps .ttl { display:block; font-size:16px; font-weight:600 } .guide .gsteps .d { display:block; margin-top:5px; color:var(--mist); font-size:14px; line-height:1.55 } .guide .gsteps .d b { color:var(--cream); font-weight:600 }
+.guide .gsteps button:not(.on) .d { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden }
+.guide .gsteps button i { position:absolute; left:0; bottom:0; height:2px; width:100%; transform:scaleX(0); transform-origin:left center; background:var(--brass) } .guide .gsteps button.on i { animation:guidefill var(--dur,6s) linear forwards } .guide .gsteps.paused button.on i { animation-play-state:paused }
+@keyframes guidefill { to { transform:scaleX(1) } }   /* scaleX, not width: no relayout per frame */
+.guide .screen { position:sticky; top:12vh; aspect-ratio:16/10.5; border-radius:14px; overflow:hidden; border:1px solid var(--c-white-12); font-family:var(--sys);
+  background:radial-gradient(120% 90% at 20% 0%, var(--c-1c2447) 0%, var(--c-0e1226) 55%, var(--c-0a0d1b) 100%); box-shadow:0 40px 100px var(--c-black-55) }
+.guide .scene { position:absolute; left:0; top:0; width:calc(100% / var(--k,1)); height:calc(100% / var(--k,1)); transform-origin:0 0; display:grid; place-items:center; opacity:0; transform:scale(calc(var(--k,1) * .985)); transition:opacity .5s, transform .6s cubic-bezier(.2,.8,.2,1); pointer-events:none }
+.guide .scene.on { opacity:1; transform:scale(var(--k,1)); pointer-events:auto }
+.guide .scene .cap { position:absolute; left:16px; top:14px; z-index:3; font:500 10px var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--c-mist-85); padding:5px 9px; border-radius:999px; background:var(--c-ink-55); border:1px solid var(--c-white-8) }
+.guide .gl { background:linear-gradient(150deg, var(--c-12141f-96), var(--c-080a12-94)); border:1px solid var(--c-f2efe6-13); border-radius:18px; box-shadow:0 18px 42px var(--c-black-50), inset 0 1px 0 var(--c-white-7); color:var(--c-white-95) }
+.guide .m { margin-top:4px; font-size:12px; color:var(--c-paper-50) }
+
+/* Guide Step 1: Install Video */
+.guide .g-install-scene { width:88%; max-width:440px; display:grid; gap:10px; justify-items:center }
+.guide .g-video-wrap { width:100%; border-radius:12px; overflow:hidden; border:1px solid var(--c-white-12); box-shadow:0 24px 60px var(--c-black-60); background:var(--c-0e1226); position:relative; aspect-ratio:828/644 }
+.guide .g-install-video { width:100%; height:100%; object-fit:cover; display:block }
+.guide .g-install-toast { padding:8px 14px; border-radius:999px; font:500 11.5px var(--sys); color:var(--cream); display:flex; align-items:center; gap:8px; width:max-content; margin:0 auto; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s }
+.guide .g-install-toast.on { opacity:1; transform:none }
+
+/* Guide Step 2: Screen Snip */
+.guide .g-snip-scene { width:88%; max-width:440px; display:grid; gap:10px }
+.guide .caps-row { display:flex; justify-content:center; gap:6px }
+.guide .caps-row kbd { font-size:13px; padding:5px 11px; border-radius:7px; transition:transform .15s, background .15s }
+.guide .caps-row kbd.down { transform:translateY(2px); background:var(--c-thread-25); border-color:var(--accent) }
+.guide .g-snip-target { border-radius:10px; background:var(--c-101322); border:1px solid var(--c-white-12); box-shadow:0 20px 50px var(--c-black-60); overflow:hidden; position:relative }
+.guide .g-snip-bar { padding:7px 12px; background:var(--c-0a0d1b); border-bottom:1px solid var(--c-white-7); display:flex; align-items:center; gap:8px; font:10.5px var(--font-mono); color:var(--mist) }
+.guide .g-dot { width:7px; height:7px; border-radius:50%; background:var(--accent) }
+.guide .g-snip-body { padding:12px 14px; font-family:var(--sys) }
+.guide .g-row-header { font:600 12px var(--sys); color:var(--cream); margin-bottom:8px }
+.guide .g-table-mock { display:grid; gap:5px }
+.guide .g-tr { display:flex; justify-content:space-between; padding:5px 8px; border-radius:5px; font:11px var(--font-mono); color:var(--mist); background:rgba(255,255,255,.02) }
+.guide .g-tr.hot { color:var(--cream); background:rgba(99,102,241,.12); border:1px solid rgba(99,102,241,.3) }
+.guide .g-snip-marquee { position:absolute; left:4%; top:44%; width:92%; height:44%; border:2px dashed var(--accent); background:rgba(99,102,241,.1); border-radius:6px; opacity:0; transform:scale(.97); transition:opacity .35s, transform .35s }
+.guide .g-snip-marquee.on { opacity:1; transform:none }
+.guide .g-snip-badge { position:absolute; right:6px; bottom:4px; font:600 9px var(--font-mono); color:var(--cream); background:var(--accent); padding:2px 6px; border-radius:4px }
+.guide .g-snip-toast { padding:8px 14px; border-radius:999px; font:500 11.5px var(--sys); color:var(--cream); display:flex; align-items:center; gap:8px; width:max-content; margin:0 auto; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s }
+.guide .g-snip-toast.on { opacity:1; transform:none }
+.guide .dot-green { width:7px; height:7px; border-radius:50%; background:var(--c-4cc88c); box-shadow:0 0 6px var(--c-4cc88c); flex:0 0 auto }
+
+/* Guide Step 3: Instant Paste (Ctrl + V) */
+.guide .g-paste-scene { width:88%; max-width:440px; display:grid; gap:10px; position:relative }
+.guide .g-paste-target { border-radius:10px; background:var(--c-101322); border:1px solid var(--c-white-12); box-shadow:0 20px 50px var(--c-black-60); overflow:hidden }
+.guide .g-paste-bar { padding:7px 12px; background:var(--c-0a0d1b); border-bottom:1px solid var(--c-white-7); display:flex; align-items:center; gap:8px; font:10.5px var(--font-mono); color:var(--mist) }
+.guide .g-paste-editor { padding:12px 14px; font-family:var(--sys) }
+.guide .g-paste-prompt { font:500 11px var(--sys); color:var(--mist); margin-bottom:6px }
+.guide .g-paste-block { border-radius:6px; background:var(--c-080a14); border:1px solid var(--c-white-8); padding:8px 10px; opacity:0; transform:translateY(4px); transition:opacity .35s, transform .35s }
+.guide .g-paste-block.on { opacity:1; transform:none }
+.guide .g-paste-block pre { margin:0; font:10px/1.45 var(--font-mono); color:var(--cream) }
+.guide .g-paste-keys { display:flex; align-items:center; justify-content:center; gap:6px; font:500 11.5px var(--sys); color:var(--mist) }
+.guide .g-win-toast { position:absolute; right:0; bottom:-4px; padding:10px 14px; border-radius:10px; display:grid; gap:4px; transform:translateY(10px); opacity:0; transition:transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s; z-index:5 }
+.guide .g-win-toast.on { transform:none; opacity:1 }
+.guide .gwt-head { display:flex; align-items:center; gap:6px; font:600 10.5px var(--sys); color:var(--cream) }
+.guide .gwt-msg { font:11px/1.35 var(--sys); color:var(--mist) }
+
+/* Guide Step 4: History & Verified Updates */
+.guide .g-hist-scene { width:88%; max-width:440px }
+.guide .g-hist-overlay { position:absolute; left:6%; right:6%; bottom:6%; padding:14px 16px; border-radius:12px; transform:translateY(8px); opacity:0; transition:transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s }
+.guide .g-hist-overlay.on { transform:none; opacity:1 }
+.guide .gho-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px }
+.guide .gho-title { font:600 14px var(--sys); color:var(--cream) }
+.guide .gho-btn { font:600 11px var(--sys); color:var(--c-night); background:var(--cream); padding:5px 12px; border-radius:6px; transition:transform .15s }
+.guide .gho-btn.press { transform:scale(.92) }
+.guide .gho-sha { font:500 11px var(--font-mono); color:var(--c-4cc88c); display:flex; align-items:center; gap:6px; margin-bottom:4px }
+.guide .chk-green { font-weight:700 }
+.guide .gho-path { font:10px var(--font-mono); color:var(--muted) }
+
+/* Guide Step 5: Hotkey Engine Toggle (Ctrl + Alt + O) */
+.guide .g-toggle-scene { width:88%; max-width:440px; display:grid; gap:14px; position:relative }
+.guide .g-toggle-keys { margin-bottom:2px }
+.guide .g-engine-card { padding:18px 20px; border-radius:14px; display:grid; gap:14px }
+.guide .ge-head { display:flex; justify-content:space-between; align-items:center }
+.guide .ge-icon { border-radius:6px }
+.guide .ge-appname { font:600 13.5px var(--sys); color:var(--cream) }
+.guide .ge-sub { font:11px var(--font-mono); color:var(--mist); margin-top:2px }
+.guide .ge-status-pill { display:flex; align-items:center; gap:7px; padding:4px 10px; border-radius:999px; font:700 10.5px var(--font-mono); letter-spacing:.06em; transition:all .3s }
+.guide .ge-status-pill.on { background:rgba(76,200,140,.15); color:var(--c-4cc88c); border:1px solid rgba(76,200,140,.35) }
+.guide .ge-status-pill.on .ge-dot { background:var(--c-4cc88c); box-shadow:0 0 8px var(--c-4cc88c) }
+.guide .ge-status-pill.off { background:rgba(245,158,11,.15); color:#f59e0b; border:1px solid rgba(245,158,11,.35) }
+.guide .ge-status-pill.off .ge-dot { background:#f59e0b; box-shadow:0 0 8px #f59e0b }
+.guide .ge-dot { width:7px; height:7px; border-radius:50%; transition:all .3s }
+.guide .ge-body { position:relative; min-height:56px }
+.guide .ge-mode-box { border-radius:8px; padding:10px 14px; border:1px solid var(--c-white-8); background:rgba(255,255,255,.02); transition:all .3s }
+.guide .ge-box-on { border-color:rgba(76,200,140,.2); background:rgba(76,200,140,.05) }
+.guide .ge-box-off { border-color:rgba(245,158,11,.2); background:rgba(245,158,11,.05) }
+.guide .ge-mode-title { font:600 12.5px var(--sys); color:var(--cream) }
+.guide .ge-box-on .ge-mode-title { color:var(--c-4cc88c) }
+.guide .ge-box-off .ge-mode-title { color:#f59e0b }
+.guide .ge-mode-desc { font:11.5px var(--sys); color:var(--mist); margin-top:3px }
+.guide .ge-foot { display:flex; justify-content:center }
+.guide .ge-hint { font:11px var(--sys); color:var(--muted) }
+.guide .ge-hint kbd { font-size:10.5px; padding:2px 6px }
+.guide .g-toggle-toast { padding:8px 14px; border-radius:999px; font:500 11.5px var(--sys); color:var(--cream); display:flex; align-items:center; gap:8px; width:max-content; margin:0 auto; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s }
+.guide .g-toggle-toast.on { opacity:1; transform:none }
+
+/* Students scenes */
+.guide .win { width:84%; border-radius:12px; overflow:hidden; background:var(--c-101322); border:1px solid var(--c-white-12); box-shadow:0 30px 70px var(--c-black-50) }
+.guide .win img { display:block; width:100%; aspect-ratio:1800/1125; object-fit:cover }
+.guide .dl { display:grid; gap:10px; width:64% } .guide .dl .b { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-radius:12px; border:1px solid var(--line2); background:var(--c-cream-4); font:600 14px var(--sys) } .guide .dl .b small { font-weight:400; color:var(--mist); font-size:12px }
+.guide .dl .note { margin-top:6px; font-size:12.5px; color:var(--mist); line-height:1.5 }
+.guide .profile { display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:14px } .guide .profile .av { width:38px; height:38px; border-radius:50%; background:var(--c-f3f1ea); color:var(--c-1d1f27); display:grid; place-items:center; font:600 14px var(--sys) } .guide .profile b { display:block; font:600 14px var(--sys) } .guide .profile span span { font-size:12px; color:var(--c-paper-55) }
+.guide .cards { display:grid; gap:12px; width:80% }
+.guide .setcard { background:var(--c-f3efe6); color:var(--c-1d1f27); border-radius:14px; padding:16px 18px; border:2px solid transparent; box-shadow:0 20px 50px var(--c-black-45) } .guide .setcard.hi { border-color:var(--c-506cff-60) }
+.guide .setcard h6 { margin-top:0; font:600 16px var(--sys) } .guide .setcard p { margin-top:5px; font-size:12px; line-height:1.45; color:var(--c-5a5c66) }
+.guide .setcard .inp { margin-top:8px; height:30px; border-radius:8px; border:1px solid var(--c-d8d3c6); background:var(--c-fbf9f4); font:12px var(--font-mono); color:var(--c-9a978e); display:flex; align-items:center; padding:0 10px } .guide .setcard .sv { display:inline-block; margin-top:8px; padding:6px 12px; border-radius:999px; background:var(--c-1d1f27); color:var(--c-f3efe6); font:600 11.5px var(--sys) }
+
+@media (max-width:980px) { .guide .fa { grid-template-columns:1fr } .guide .screen { position:relative; top:0 } }
+@media (max-width:640px) { .guide .sec { padding:12vh 18px 14vh } .guide .prod button { padding:10px 14px; font-size:14px } }
+@media (prefers-reduced-motion: reduce) {
+  .js .guide .reveal { opacity:1; transform:none; transition:none } .guide .scene, .guide .g-install-toast, .guide .g-paste-block, .guide .g-win-toast, .guide .g-hist-overlay, .guide .g-toggle-toast { transition:none }
+  .guide .gsteps button.on i { animation:none; transform:none } .guide .graph .ed { stroke-dashoffset:0 } .guide .graph .nd { opacity:1; transform:none }
+}
+.guide .dl .note code { font:11.5px var(--font-mono); color:var(--cream) }

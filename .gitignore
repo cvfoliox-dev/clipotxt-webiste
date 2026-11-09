@@ -1,0 +1,14 @@
+# Environment & secrets
+.env
+*.env
+*.env.local
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary scratch scripts & media
+scratch/
+.system_generated/
+
