@@ -98,8 +98,8 @@
             </div>
 
             <div class="ct-need-extract" data-need-extract hidden>
-              <span>No extracted text is on the demo clipboard yet.</span>
-              <button type="button" class="ct-mini-next" data-action="jump-extract">Go to Extract Text (Stage 02)</button>
+              <span>Waiting for automatic Stage 02 OCR to populate the clipboard.</span>
+              <button type="button" class="ct-mini-next" data-action="jump-extract">View Stage 02 Status</button>
             </div>
           </div>
         </div>
@@ -237,7 +237,7 @@
         ? "Session ready · Tour completed"
         : ready
           ? `Clipboard: Text copied (${state.aiContextMode ? "Markdown" : "Plain"})`
-          : "Clipboard: Empty (run Stage 02)";
+          : "Clipboard: Waiting for Stage 02 auto-OCR";
       destClipEl.classList.toggle("ready", ready || finished);
 
       pasteBtn.hidden = pasted;
@@ -254,6 +254,8 @@
       if (state.pastePhase === "pasted") {
         return {
           el: finishBtn,
+          stepLabel: "3 / 3",
+          ptrText: "Click Finish",
           kicker: "ALL 3 STAGES DONE",
           title: "Click Finish to complete",
           hint: "Text is pasted in Claude Code. Click Finish to wrap up the walkthrough.",
@@ -262,9 +264,11 @@
       }
       return {
         el: editor,
+        stepLabel: "2 / 3",
+        ptrText: "Press Ctrl + V to paste",
         kicker: "STAGE 03 · CLAUDE CODE PASTE",
         title: "Press Ctrl + V to paste",
-        hint: "Focus the Claude Code composer and press Ctrl + V (or click Paste Text).",
+        hint: "Focus the Claude Code composer and press Ctrl + V (or tap Paste Text).",
         compactHint: "Focus prompt & press Ctrl + V"
       };
     }
@@ -274,6 +278,7 @@
       el,
       editor,
       sync,
+      triggerPaste: performPaste,
       getGuidanceTarget,
       destroy() {
         clearInterval(typeTimer);

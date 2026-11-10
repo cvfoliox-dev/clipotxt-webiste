@@ -1,9 +1,9 @@
-/* ClipoTxt Interactive Demo — Stage 02: Extract (ClipoTxt Real UI Style & Live OCR State) */
+/* ClipoTxt Interactive Demo — Stage 02: Automatic Local OCR + Desktop Completion Notification */
 (function () {
   window.ClipoDemo = window.ClipoDemo || {};
 
   function createExtractStage(container, store, opts) {
-    const { onAdvanceToPaste, onActionPulse } = opts;
+    const { onAdvanceToPaste } = opts;
     const DATA = store.SAMPLE_DATA;
 
     const el = document.createElement("div");
@@ -26,30 +26,30 @@
           </div>
           <div class="ct-app-privacy">
             <strong>On-device processing</strong>
-            <span>100% Private · Local v1.0.3</span>
+            <span>100% Private &middot; Local v1.0.3</span>
           </div>
         </aside>
 
         <div class="ct-app-main">
           <div class="ct-app-top">
             <div>
-              <div class="ct-app-kicker mono">YOUR DESKTOP AGENT</div>
+              <div class="ct-app-kicker mono">AUTOMATIC CLIPBOARD LISTENER</div>
               <h3 class="ct-app-h">Screenshots, meet clarity.</h3>
             </div>
             <div class="ct-clip-indicator" data-clip-status>
               <span class="ct-clip-dot"></span>
-              <span data-clip-label>Waiting to extract</span>
+              <span data-clip-label>Image detected</span>
             </div>
           </div>
 
           <div class="ct-app-grid">
             <div class="ct-app-preview-card">
               <div class="ct-card-bar">
-                <span>Captured Screenshot</span>
+                <span>Detected Screenshot</span>
                 <span class="mono">${DATA.imageDimensions}</span>
               </div>
               <div class="ct-preview-frame">
-                <img src="${DATA.imageSrc}" alt="Captured comparison table ready for local OCR" />
+                <img src="${DATA.imageSrc}" alt="Captured comparison table processed locally by ClipoTxt" />
                 <div class="ct-scan-beam" aria-hidden="true"></div>
               </div>
               <div class="ct-format-row">
@@ -57,13 +57,10 @@
                   <span class="ct-ctx-pill">AI Context Mode</span>
                   <span data-ai-mode-lbl>Structured Markdown</span>
                 </button>
-                <button
-                  type="button"
-                  class="ct-extract-btn"
-                  data-demo-target="extract-btn"
-                >
-                  Extract Text
-                </button>
+                <div class="ct-auto-badge" data-auto-badge>
+                  <span class="ct-auto-dot" aria-hidden="true"></span>
+                  <span data-auto-lbl>Auto-OCR enabled</span>
+                </div>
               </div>
             </div>
 
@@ -74,12 +71,12 @@
               </div>
               <div class="ct-result-body">
                 <div class="ct-result-empty" data-result-empty>
-                  <div class="ct-empty-badge">ONNX Runtime CPU · Ready</div>
-                  <p>Click <strong>Extract Text</strong> to process the captured image locally and copy structured Markdown to your clipboard.</p>
+                  <div class="ct-empty-badge">Clipboard Image Detected</div>
+                  <p>Starting RapidOCR PP-OCRv4 locally on CPU automatically&hellip;</p>
                 </div>
                 <div class="ct-result-scanning" data-result-scanning hidden>
                   <div class="ct-scan-spinner" aria-hidden="true"></div>
-                  <p>Running local RapidOCR PP-OCRv4 on CPU&hellip;</p>
+                  <p>Extracting screenshot text locally on CPU&hellip;</p>
                 </div>
                 <div class="ct-result-output" data-result-output hidden>
                   <pre class="ct-md-pre" data-md-pre></pre>
@@ -87,9 +84,22 @@
               </div>
               <div class="ct-result-foot" data-result-foot hidden>
                 <span class="ct-copied-pill" data-copied-pill>Text copied</span>
-                <button type="button" class="ct-mini-next" data-action="go-paste">Paste into Workspace &rarr;</button>
+                <button type="button" class="ct-mini-next" data-action="go-paste">Continue to Paste &rarr;</button>
               </div>
             </div>
+          </div>
+
+          <div class="ct-desktop-toast" data-desktop-toast role="status" aria-live="polite" hidden>
+            <img src="${DATA.logoSrc}" alt="" width="24" height="24" class="ct-toast-app-ico" />
+            <div class="ct-toast-copy">
+              <div class="ct-toast-head">
+                <strong>ClipoTxt</strong>
+                <span class="ct-toast-tag mono">NOTIFICATION</span>
+              </div>
+              <div class="ct-toast-title">Screenshot text extracted successfully.</div>
+              <div class="ct-toast-msg">Your clipboard is ready to paste.</div>
+            </div>
+            <img src="assets/demo/toast-copied.png" alt="" class="ct-toast-pill-img" />
           </div>
         </div>
       </div>
@@ -97,9 +107,10 @@
 
     container.appendChild(el);
 
-    const extractBtn = el.querySelector('[data-demo-target="extract-btn"]');
     const aiToggleBtn = el.querySelector('[data-action="toggle-ai-mode"]');
     const aiModeLbl = el.querySelector("[data-ai-mode-lbl]");
+    const autoBadgeEl = el.querySelector("[data-auto-badge]");
+    const autoLblEl = el.querySelector("[data-auto-lbl]");
     const clipStatusEl = el.querySelector("[data-clip-status]");
     const clipLabelEl = el.querySelector("[data-clip-label]");
     const perfChipEl = el.querySelector("[data-perf-chip]");
@@ -108,11 +119,21 @@
     const outputEl = el.querySelector("[data-result-output]");
     const mdPreEl = el.querySelector("[data-md-pre]");
     const footEl = el.querySelector("[data-result-foot]");
+    const toastEl = el.querySelector("[data-desktop-toast]");
     const goPasteBtn = el.querySelector('[data-action="go-paste"]');
 
+    let kickTimer = 0;
     let scanTimer = 0;
     let streamTimer = 0;
     let advanceTimer = 0;
+    let autoPipelineRunning = false;
+
+    function clearAllTimers() {
+      clearTimeout(kickTimer);
+      clearTimeout(scanTimer);
+      clearInterval(streamTimer);
+      clearTimeout(advanceTimer);
+    }
 
     function getOutputText(state) {
       return state.aiContextMode ? DATA.extractedMarkdown : DATA.extractedPlain;
@@ -120,9 +141,7 @@
 
     function revealTextProgressively(fullText, doneCb) {
       clearInterval(streamTimer);
-      const reduce =
-        window.matchMedia &&
-        matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) {
         mdPreEl.textContent = fullText;
         doneCb();
@@ -140,61 +159,62 @@
         } else {
           mdPreEl.textContent = lines.slice(0, count).join("\n");
         }
-      }, 45);
+      }, 38);
     }
 
-    function runExtraction() {
+    function runAutomaticExtraction() {
       const s = store.getState();
-      if (s.extractPhase === "scanning") return;
-      if (onActionPulse) onActionPulse();
+      if (autoPipelineRunning || s.extractPhase !== "idle") return;
+      autoPipelineRunning = true;
+      clearAllTimers();
 
-      clearTimeout(scanTimer);
-      clearTimeout(advanceTimer);
-      clearInterval(streamTimer);
+      const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const wasCopied = s.extractPhase === "copied";
-      store.setState({
-        captureDone: true,
-        extractPhase: "scanning",
-        clipboardStatus: "Processing locally...",
-      });
+      kickTimer = setTimeout(() => {
+        if (store.getState().stage !== "extract") {
+          autoPipelineRunning = false;
+          return;
+        }
+        store.setState({
+          captureDone: true,
+          extractPhase: "scanning",
+          toastVisible: false,
+          clipboardStatus: "Processing locally..."
+        });
 
-      const reduce =
-        window.matchMedia &&
-        matchMedia("(prefers-reduced-motion: reduce)").matches;
-      scanTimer = setTimeout(
-        () => {
+        scanTimer = setTimeout(() => {
           const cur = store.getState();
+          if (cur.stage !== "extract") {
+            autoPipelineRunning = false;
+            return;
+          }
           store.setState({
             extractPhase: "copied",
-            clipboardStatus: "Text copied",
+            toastVisible: true,
+            clipboardStatus: "Text copied"
           });
+
           revealTextProgressively(getOutputText(cur), () => {
-            // On initial extraction, give visitor a clear moment to inspect "Text copied", then enter Paste stage smoothly
-            if (!wasCopied) {
-              advanceTimer = setTimeout(
-                () => {
-                  if (
-                    store.getState().stage === "extract" &&
-                    store.getState().extractPhase === "copied"
-                  ) {
-                    onAdvanceToPaste();
-                  }
-                },
-                reduce ? 150 : 1100,
-              );
-            }
+            autoPipelineRunning = false;
+            // Hold completion notification visibly so visitor reads toast, then proceed into Stage 03
+            advanceTimer = setTimeout(() => {
+              const latest = store.getState();
+              if (latest.stage === "extract" && latest.extractPhase === "copied") {
+                onAdvanceToPaste();
+              }
+            }, reduce ? 300 : 1850);
           });
-        },
-        reduce ? 60 : 520,
-      );
+        }, reduce ? 70 : 580);
+      }, reduce ? 40 : 200);
     }
 
-    extractBtn.addEventListener("click", runExtraction);
     goPasteBtn.addEventListener("click", () => {
       clearTimeout(advanceTimer);
-      onAdvanceToPaste();
+      if (store.getState().extractPhase === "copied") {
+        onAdvanceToPaste();
+      }
     });
+
     aiToggleBtn.addEventListener("click", () => {
       const next = !store.getState().aiContextMode;
       store.setState({ aiContextMode: next });
@@ -208,64 +228,51 @@
       el.classList.toggle("is-scanning", state.extractPhase === "scanning");
       el.classList.toggle("is-copied", state.extractPhase === "copied");
 
-      aiToggleBtn.setAttribute(
-        "aria-pressed",
-        state.aiContextMode ? "true" : "false",
-      );
-      aiModeLbl.textContent = state.aiContextMode
-        ? "Structured Markdown"
-        : "Plain Table Text";
+      aiToggleBtn.setAttribute("aria-pressed", state.aiContextMode ? "true" : "false");
+      aiModeLbl.textContent = state.aiContextMode ? "Structured Markdown" : "Plain Table Text";
 
       emptyEl.hidden = state.extractPhase !== "idle";
       scanningEl.hidden = state.extractPhase !== "scanning";
       outputEl.hidden = state.extractPhase !== "copied";
       footEl.hidden = state.extractPhase !== "copied";
+      toastEl.hidden = !(state.extractPhase === "copied" && state.toastVisible);
 
       if (state.extractPhase === "copied" && mdPreEl.textContent === "") {
         mdPreEl.textContent = getOutputText(state);
+      } else if (state.extractPhase === "idle") {
+        mdPreEl.textContent = "";
       }
 
       clipStatusEl.classList.toggle("ready", state.extractPhase === "copied");
       clipStatusEl.classList.toggle("busy", state.extractPhase === "scanning");
+      autoBadgeEl.classList.toggle("ready", state.extractPhase === "copied");
+      autoBadgeEl.classList.toggle("busy", state.extractPhase === "scanning");
 
       if (state.extractPhase === "copied") {
         clipLabelEl.textContent = "Text copied";
-        perfChipEl.textContent = `${DATA.ocrElapsedMs} ms · ${DATA.ocrConfidencePct}% conf`;
-        extractBtn.textContent = "Re-extract Text";
+        perfChipEl.textContent = `${DATA.ocrElapsedMs} ms \u00b7 ${DATA.ocrConfidencePct}% conf`;
+        autoLblEl.textContent = "Auto-extracted & copied";
       } else if (state.extractPhase === "scanning") {
         clipLabelEl.textContent = "Extracting on CPU...";
         perfChipEl.textContent = "PP-OCRv4 active";
-        extractBtn.textContent = "Extracting...";
+        autoLblEl.textContent = "Running local OCR...";
       } else {
-        clipLabelEl.textContent = state.captureDone
-          ? "Image detected · Ready"
-          : "Waiting to extract";
+        clipLabelEl.textContent = state.captureDone ? "Image detected" : "Waiting for screenshot";
         perfChipEl.textContent = "RapidOCR PP-OCRv4";
-        extractBtn.textContent = "Extract Text";
+        autoLblEl.textContent = "Auto-OCR triggers on capture";
       }
-      extractBtn.disabled = state.extractPhase === "scanning";
+
+      // Leaving Stage 02 while idle resets any stale queued auto-timer cleanly
+      if (state.stage !== "extract" && state.extractPhase === "idle") {
+        autoPipelineRunning = false;
+        clearAllTimers();
+      } else if (state.stage === "extract" && state.extractPhase === "idle" && !autoPipelineRunning) {
+        runAutomaticExtraction();
+      }
     }
 
-    function getGuidanceTarget(state) {
-      if (state.stage !== "extract") return null;
-      if (state.extractPhase === "idle") {
-        return {
-          el: extractBtn,
-          kicker: "STAGE 02 · LOCAL OCR",
-          title: "Click Extract Text to run local OCR",
-          hint: "ClipoTxt extracts the screenshot text locally using RapidOCR PP-OCRv4.",
-          compactHint: "Click Extract Text",
-        };
-      }
-      if (state.extractPhase === "copied") {
-        return {
-          el: goPasteBtn,
-          kicker: "CLIPBOARD READY",
-          title: "Text copied to demo clipboard",
-          hint: "Proceed to your editor or AI chat to paste with Ctrl + V.",
-          compactHint: "Next: Paste into Workspace",
-        };
-      }
+    // No Extract button / manual click instruction in Stage 02 — OCR happens automatically
+    function getGuidanceTarget() {
       return null;
     }
 
@@ -275,11 +282,9 @@
       sync,
       getGuidanceTarget,
       destroy() {
-        clearTimeout(scanTimer);
-        clearTimeout(advanceTimer);
-        clearInterval(streamTimer);
+        clearAllTimers();
         el.remove();
-      },
+      }
     };
   }
 

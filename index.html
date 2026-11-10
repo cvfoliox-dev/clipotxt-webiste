@@ -814,33 +814,51 @@
       <div class="lesson">
         <ol class="steps" aria-label="Interactive walkthrough stages">
           <li class="step on">
-            <button type="button" class="step-btn" data-step-idx="0" aria-current="step">
+            <button
+              type="button"
+              class="step-btn"
+              data-step-idx="0"
+              aria-current="step"
+            >
               <div class="st-top"><span class="t mono">Active</span></div>
               <h3 class="serif">First time, it <em>detects instantly.</em></h3>
               <p>
-                Click the workspace capture region (simulating <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>)
-                and watch ClipoTxt intercept the screenshot cleanly.
+                Click the workspace capture region (simulating <kbd>Win</kbd> +
+                <kbd>Shift</kbd> + <kbd>S</kbd>) and watch ClipoTxt intercept
+                the screenshot cleanly.
               </p>
             </button>
           </li>
           <li class="step">
-            <button type="button" class="step-btn" data-step-idx="1" aria-current="false">
+            <button
+              type="button"
+              class="step-btn"
+              data-step-idx="1"
+              aria-current="false"
+            >
               <div class="st-top"><span class="t mono">02</span></div>
               <h3 class="serif">
                 Next millisecond, <em>local OCR extracts.</em>
               </h3>
               <p>
-                Click <strong>Extract Text</strong> to run RapidOCR and PP-OCRv4 locally on CPU
-                with Smart Format Mode structuring clean Markdown.
+                Markdown. Clipboard detection automatically runs RapidOCR
+                PP-OCRv4 locally on CPU, copies clean Markdown, and displays a
+                completion notification.
               </p>
             </button>
           </li>
           <li class="step">
-            <button type="button" class="step-btn" data-step-idx="2" aria-current="false">
+            <button
+              type="button"
+              class="step-btn"
+              data-step-idx="2"
+              aria-current="false"
+            >
               <div class="st-top"><span class="t mono">03</span></div>
               <h3 class="serif">Immediately, <em>paste anywhere.</em></h3>
               <p>
-                Focus the simulated editor and press <kbd>Ctrl</kbd> + <kbd>V</kbd>
+                Focus the simulated editor and press <kbd>Ctrl</kbd> +
+                <kbd>V</kbd>
                 (or tap Paste Text) to drop in formatted Markdown.
               </p>
             </button>

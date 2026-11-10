@@ -87,6 +87,10 @@
 
       store.setState({
         captureAnimating: true,
+        extractPhase: "idle",
+        toastVisible: false,
+        pastePhase: "idle",
+        finishDone: false,
         clipboardStatus: "Image detected",
       });
       el.classList.add("is-snapping");
@@ -105,17 +109,14 @@
           clipboardStatus: "Image detected",
         });
 
-        // Auto-open ClipoTxt on first capture so the visitor immediately lands on Extract Text (Second click)
-        if (!wasDone) {
-          advanceTimer = setTimeout(
-            () => {
-              if (store.getState().stage === "capture") {
-                onAdvanceToExtract();
-              }
-            },
-            reduce ? 120 : 620,
-          );
-        }
+        advanceTimer = setTimeout(
+          () => {
+            if (store.getState().stage === "capture") {
+              onAdvanceToExtract();
+            }
+          },
+          reduce ? 120 : 680,
+        );
       }, snapWait);
     }
 
@@ -139,22 +140,15 @@
     }
 
     function getGuidanceTarget(state) {
-      if (state.stage !== "capture") return null;
-      if (state.captureDone) {
-        return {
-          el: goExtractBtn,
-          kicker: "STAGE 01 · CAPTURE COMPLETE",
-          title: "ClipoTxt detected the screenshot",
-          hint: "Open ClipoTxt to extract text on your CPU.",
-          compactHint: "Next: Open ClipoTxt",
-        };
-      }
+      if (state.stage !== "capture" || state.captureDone || state.captureAnimating) return null;
       return {
         el: regionBtn,
+        stepLabel: "1 / 3",
+        ptrText: "Click area to capture",
         kicker: "STAGE 01 · CAPTURE",
         title: "Select an area to capture",
         hint: "Click the highlighted table region to simulate Win + Shift + S.",
-        compactHint: "Click region to capture",
+        compactHint: "Click region to capture"
       };
     }
 
@@ -162,6 +156,7 @@
     return {
       el,
       sync,
+      triggerCapture,
       getGuidanceTarget,
       destroy() {
         clearTimeout(advanceTimer);

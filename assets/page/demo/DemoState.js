@@ -41,9 +41,12 @@
     captureDone: false,
     captureAnimating: false,
     extractPhase: "idle",      // "idle" | "scanning" | "copied"
+    toastVisible: false,
     aiContextMode: true,
     pastePhase: "idle",        // "idle" | "pasted"
     finishDone: false,
+    tourPlaying: false,
+    guideUsedOnce: false,
     clipboardStatus: "Empty",  // "Empty" | "Image detected" | "Text copied"
     startedAt: { capture: 0, extract: 0, paste: 0 },
     timings: { capture: null, extract: null, paste: null }
@@ -66,8 +69,12 @@
         listeners.forEach((fn) => fn(state, prev));
       },
       reset(keepMode = true) {
-        const mode = keepMode ? state.guidanceMode : "guided";
-        state = Object.assign(INITIAL_STATE(), { guidanceMode: mode });
+        const used = Boolean(state.guideUsedOnce);
+        const mode = used ? "explore" : (keepMode ? state.guidanceMode : "guided");
+        state = Object.assign(INITIAL_STATE(), {
+          guidanceMode: mode,
+          guideUsedOnce: used
+        });
         listeners.forEach((fn) => fn(state, null));
       }
     };

@@ -37,6 +37,8 @@
     stepBtns.forEach((btn, i) => {
       if (!btn) return;
       btn.addEventListener("click", () => {
+        const s = store.getState();
+        if (STAGES[i] === "paste" && s.extractPhase !== "copied") return;
         onNavigateStage(STAGES[i]);
       });
     });
@@ -44,6 +46,8 @@
     footerEl.addEventListener("click", (e) => {
       const nav = e.target.closest("[data-nav-stage]");
       if (nav) {
+        const s = store.getState();
+        if (nav.dataset.navStage === "paste" && s.extractPhase !== "copied") return;
         onNavigateStage(nav.dataset.navStage);
         return;
       }
@@ -58,7 +62,9 @@
         if (s.stage === "paste" && s.pastePhase === "pasted" && !s.finishDone) {
           if (onFinish) onFinish();
         } else if (idx < STAGES.length - 1) {
-          onNavigateStage(STAGES[idx + 1]);
+          const targetStage = STAGES[idx + 1];
+          if (targetStage === "paste" && s.extractPhase !== "copied") return;
+          onNavigateStage(targetStage);
         }
       } else if (action === "replay") {
         onReplay();
@@ -73,6 +79,7 @@
         state.pastePhase === "pasted"
       ];
 
+      const ocrReady = state.extractPhase === "copied";
       stepEls.forEach((li, i) => {
         const active = i === activeIdx;
         const done = doneFlags[i];
@@ -81,6 +88,7 @@
         const btn = stepBtns[i];
         if (btn) {
           btn.setAttribute("aria-current", active ? "step" : "false");
+          btn.disabled = i === 2 && !ocrReady;
         }
         const badge = li.querySelector(".t");
         if (badge) {
@@ -93,6 +101,7 @@
       crumbs.forEach((c, i) => {
         c.classList.toggle("on", i === activeIdx);
         c.classList.toggle("done", doneFlags[i]);
+        c.disabled = i === 2 && !ocrReady;
         c.setAttribute("aria-current", i === activeIdx ? "step" : "false");
       });
 
@@ -106,26 +115,29 @@
         nextBtn.classList.add("ct-finish-nav");
       } else {
         nextBtn.textContent = "Next";
-        nextBtn.disabled = activeIdx === STAGES.length - 1;
+        const nextStage = STAGES[activeIdx + 1];
+        nextBtn.disabled = activeIdx === STAGES.length - 1 || (nextStage === "paste" && !ocrReady);
         nextBtn.classList.remove("hi", "ct-finish-nav");
       }
       replayBtn.classList.toggle("hi", Boolean(state.finishDone));
 
       if (statusEl) {
         if (state.finishDone) {
-          statusEl.innerHTML = `<b>Tour finished:</b> Screenshot &rarr; RapidOCR PP-OCRv4 (571.5 ms) &rarr; Clean Markdown pasted into Claude Code.`;
+          statusEl.innerHTML = `<b>Tour finished:</b> Screenshot &rarr; Automatic PP-OCRv4 (571.5 ms) &rarr; Clean Markdown pasted into Claude Code.`;
         } else if (state.pastePhase === "pasted") {
           statusEl.innerHTML = `<b>All 3 stages complete:</b> Extracted Markdown pasted into Claude Code. Click <b>Finish</b> to wrap up.<br><button type="button" class="cta" data-status-finish>Finish</button>`;
         } else if (state.stage === "capture") {
           statusEl.textContent = state.captureDone
-            ? "Screenshot captured cleanly onto ClipoTxt's demo clipboard."
-            : "Stage 01 — Click the highlighted region inside the desktop workspace to capture.";
+            ? "Screenshot detected on ClipoTxt clipboard — opening local OCR..."
+            : state.guideUsedOnce
+              ? "Manual replay — click the capture area on your own (refresh page to replay logo guide)."
+              : "Stage 01 — Click the highlighted region inside the desktop workspace to capture.";
         } else if (state.stage === "extract") {
           statusEl.textContent = state.extractPhase === "copied"
-            ? "Stage 02 — Structured Markdown extracted locally. Status: Text copied."
-            : "Stage 02 — Click Extract Text inside ClipoTxt to run local PP-OCRv4 OCR.";
+            ? "Stage 02 — Screenshot text extracted automatically and copied to clipboard."
+            : "Stage 02 — Detecting clipboard image and extracting text locally on CPU...";
         } else {
-          statusEl.textContent = "Stage 03 — Focus Claude Code's prompt box and press Ctrl + V (or click Paste Text) to insert Markdown.";
+          statusEl.textContent = "Stage 03 — Focus Claude Code's prompt box and press Ctrl + V (or tap Paste Text) to insert Markdown.";
         }
       }
     }
