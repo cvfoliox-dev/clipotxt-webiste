@@ -812,57 +812,42 @@
         </p>
       </div>
       <div class="lesson">
-        <ol class="steps">
-          <li class="step">
-            <div class="st-top"><span class="t mono"></span></div>
-            <h3 class="serif">First time, it <em>detects instantly.</em></h3>
-            <p>
-              Press <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> to snip.
-              ClipoTxt intercepts the image without CPU polling.
-            </p>
+        <ol class="steps" aria-label="Interactive walkthrough stages">
+          <li class="step on">
+            <button type="button" class="step-btn" data-step-idx="0" aria-current="step">
+              <div class="st-top"><span class="t mono">Active</span></div>
+              <h3 class="serif">First time, it <em>detects instantly.</em></h3>
+              <p>
+                Click the workspace capture region (simulating <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>)
+                and watch ClipoTxt intercept the screenshot cleanly.
+              </p>
+            </button>
           </li>
           <li class="step">
-            <div class="st-top"><span class="t mono"></span></div>
-            <h3 class="serif">
-              Next millisecond, <em>local OCR extracts.</em>
-            </h3>
-            <p>
-              RapidOCR and PP-OCRv4 run on your CPU with Smart Format Mode
-              formatting lines, tables, and code blocks.
-            </p>
+            <button type="button" class="step-btn" data-step-idx="1" aria-current="false">
+              <div class="st-top"><span class="t mono">02</span></div>
+              <h3 class="serif">
+                Next millisecond, <em>local OCR extracts.</em>
+              </h3>
+              <p>
+                Click <strong>Extract Text</strong> to run RapidOCR and PP-OCRv4 locally on CPU
+                with Smart Format Mode structuring clean Markdown.
+              </p>
+            </button>
           </li>
           <li class="step">
-            <div class="st-top"><span class="t mono"></span></div>
-            <h3 class="serif">Immediately, <em>paste anywhere.</em></h3>
-            <p>
-              Press <kbd>Ctrl</kbd> + <kbd>V</kbd> in your IDE, editor,
-              documents, or notes. The clean text is already on your clipboard.
-            </p>
+            <button type="button" class="step-btn" data-step-idx="2" aria-current="false">
+              <div class="st-top"><span class="t mono">03</span></div>
+              <h3 class="serif">Immediately, <em>paste anywhere.</em></h3>
+              <p>
+                Focus the simulated editor and press <kbd>Ctrl</kbd> + <kbd>V</kbd>
+                (or tap Paste Text) to drop in formatted Markdown.
+              </p>
+            </button>
           </li>
         </ol>
         <div class="stage" id="aStage">
           <div class="knot" aria-hidden="true"><canvas></canvas></div>
-          <div class="gb glass" role="status" aria-hidden="true">
-            <div class="gb-kicker">Win + Shift + S detected</div>
-            <div class="gb-text">Click AutoSum or Paste to extract text.</div>
-            <div class="gb-hint">
-              RapidOCR PP-OCRv4 • 4 CPU threads • Smart Format Mode
-            </div>
-          </div>
-          <div
-            class="keep glass"
-            role="dialog"
-            aria-label="Saved to local SQLite history?"
-            aria-hidden="true"
-          >
-            <span>Saved to local SQLite history?</span
-            ><button type="button" class="yes">Keep</button
-            ><button type="button" class="no">Skip</button>
-          </div>
-          <div class="khint glass" aria-hidden="true">
-            <b>SQLite History:</b> 1 saved
-          </div>
-          <div class="hring" aria-hidden="true"></div>
         </div>
         <div class="a-status" id="aStatus" aria-live="polite"></div>
       </div>
@@ -960,7 +945,16 @@
     <script src="assets/page/companion/knot-engine.js?v=1"></script>
     <script src="assets/page/companion/knot-site.js?v=2"></script>
     <script src="assets/page/perf.js?v=3"></script>
-    <script src="assets/page/lesson.js?v=12"></script>
+    <script src="assets/page/demo/DemoState.js?v=1"></script>
+    <script src="assets/page/demo/GuidanceMode.js?v=1"></script>
+    <script src="assets/page/demo/DemoProgress.js?v=1"></script>
+    <script src="assets/page/demo/DemoPointer.js?v=1"></script>
+    <script src="assets/page/demo/DemoOverlay.js?v=1"></script>
+    <script src="assets/page/demo/CaptureStage.js?v=1"></script>
+    <script src="assets/page/demo/ExtractStage.js?v=1"></script>
+    <script src="assets/page/demo/PasteStage.js?v=1"></script>
+    <script src="assets/page/demo/InteractiveDemo.js?v=1"></script>
+    <script src="assets/page/lesson.js?v=13"></script>
     <script src="assets/page/ways.js?v=17"></script>
     <script src="assets/page/plans.js?v=17"></script>
     <script src="assets/page/guide.js?v=10"></script>

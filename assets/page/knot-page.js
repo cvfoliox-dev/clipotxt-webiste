@@ -244,13 +244,16 @@
       },
     };
   }
+  window.createClipoCompanion = createClipoCompanion;
 
   /* Comprehensive ClipoTxt Local Knowledge Base */
   function getLocalClipoAnswer(text) {
     const q = text.toLowerCase().trim();
 
     // 1. Greetings & Pleasantries
-    if (/^(hi|hello|hey|yo|sup|good (morning|afternoon|evening)|howdy)\b/.test(q)) {
+    if (
+      /^(hi|hello|hey|yo|sup|good (morning|afternoon|evening)|howdy)\b/.test(q)
+    ) {
       return (
         "Hello! I am the **ClipoTxt Companion**.\n\n" +
         "I can answer any question about ClipoTxt—hotkeys, local RapidOCR PP-OCRv4 CPU inference, Smart Format Mode, SQLite history, or 100% offline privacy.\n\n" +
@@ -262,7 +265,22 @@
     }
 
     // 2. Who made it / Founder / Author / Bharath Thommandru / Contact
-    if (anyMatch(q, ["bharath", "thommandru", "founder", "author", "creator", "who made", "who created", "who built", "contact", "email", "feedback", "support"])) {
+    if (
+      anyMatch(q, [
+        "bharath",
+        "thommandru",
+        "founder",
+        "author",
+        "creator",
+        "who made",
+        "who created",
+        "who built",
+        "contact",
+        "email",
+        "feedback",
+        "support",
+      ])
+    ) {
       return (
         "### Created by Bharath Thommandru\n\n" +
         "**ClipoTxt** was created and engineered by **Bharath Thommandru**.\n\n" +
@@ -273,7 +291,21 @@
     }
 
     // 3. Pricing / Cost / Free / Subscription / Commercial Use
-    if (anyMatch(q, ["cost", "price", "pricing", "free", "pay", "buy", "subscription", "license", "commercial", "trial", "tier"])) {
+    if (
+      anyMatch(q, [
+        "cost",
+        "price",
+        "pricing",
+        "free",
+        "pay",
+        "buy",
+        "subscription",
+        "license",
+        "commercial",
+        "trial",
+        "tier",
+      ])
+    ) {
       return (
         "### 100% Free Forever\n\n" +
         "- **Zero Subscriptions:** ClipoTxt is completely free for both personal and commercial use.\n" +
@@ -284,7 +316,21 @@
     }
 
     // 4. Hotkeys / Shortcuts / Pause / Resume / Toggle
-    if (anyMatch(q, ["shortcut", "hotkey", "keys", "pause", "resume", "toggle", "ctrl+alt+o", "win+shift+s", "ctrl+v", "how to pause", "stop monitoring"])) {
+    if (
+      anyMatch(q, [
+        "shortcut",
+        "hotkey",
+        "keys",
+        "pause",
+        "resume",
+        "toggle",
+        "ctrl+alt+o",
+        "win+shift+s",
+        "ctrl+v",
+        "how to pause",
+        "stop monitoring",
+      ])
+    ) {
       return (
         "### ClipoTxt Hotkeys & Shortcuts:\n\n" +
         "- <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> — **Snip Anything:** Standard Windows capture. ClipoTxt automatically intercepts the copied image with 0% idle CPU polling.\n" +
@@ -294,7 +340,21 @@
     }
 
     // 5. Smart Format Mode (reconstructed tables, markdown, code blocks, layout)
-    if (anyMatch(q, ["smart format", "format mode", "format", "markdown", "table", "code block", "layout", "xy-cut", "reading order", "indent", "fences"])) {
+    if (
+      anyMatch(q, [
+        "smart format",
+        "format mode",
+        "format",
+        "markdown",
+        "table",
+        "code block",
+        "layout",
+        "xy-cut",
+        "reading order",
+        "indent",
+        "fences",
+      ])
+    ) {
       return (
         "### Smart Format Mode\n\n" +
         "ClipoTxt includes a deterministic layout reconstruction engine:\n\n" +
@@ -306,7 +366,23 @@
     }
 
     // 6. Local OCR Engine / RapidOCR / PP-OCRv4 / Speed / Latency / CPU / ONNX
-    if (anyMatch(q, ["ocr", "rapidocr", "pp-ocr", "onnx", "engine", "speed", "latency", "threads", "accuracy", "cpu", "gpu", "simd", "performance"])) {
+    if (
+      anyMatch(q, [
+        "ocr",
+        "rapidocr",
+        "pp-ocr",
+        "onnx",
+        "engine",
+        "speed",
+        "latency",
+        "threads",
+        "accuracy",
+        "cpu",
+        "gpu",
+        "simd",
+        "performance",
+      ])
+    ) {
       return (
         "### RapidOCR PP-OCRv4 CPU Engine\n\n" +
         "- **Local Neural Weights:** Uses PaddleOCR PP-OCRv4 optimized models bundled (~15 MB) inside the app.\n" +
@@ -318,7 +394,21 @@
     }
 
     // 7. Privacy / Offline / Security / Telemetry / Cloud
-    if (anyMatch(q, ["privacy", "offline", "data", "telemetry", "cloud", "security", "safe", "server", "upload", "track", "analytics"])) {
+    if (
+      anyMatch(q, [
+        "privacy",
+        "offline",
+        "data",
+        "telemetry",
+        "cloud",
+        "security",
+        "safe",
+        "server",
+        "upload",
+        "track",
+        "analytics",
+      ])
+    ) {
       return (
         "### 100% Local & Completely Private\n\n" +
         "- **0 Telemetry:** ClipoTxt contains zero analytics trackers, telemetry pings, or background logging.\n" +
@@ -329,7 +419,22 @@
     }
 
     // 8. Download / Install / Setup / Portable / Windows Versions / v1.0.3
-    if (anyMatch(q, ["download", "install", "portable", "setup", "exe", "zip", "version", "update", "get", "link", "installer", "smartscreen"])) {
+    if (
+      anyMatch(q, [
+        "download",
+        "install",
+        "portable",
+        "setup",
+        "exe",
+        "zip",
+        "version",
+        "update",
+        "get",
+        "link",
+        "installer",
+        "smartscreen",
+      ])
+    ) {
       return (
         "### Download ClipoTxt v1.0.3:\n\n" +
         "- **Standard Installer:** `ClipoTxt-Setup-v1.0.3.exe` (~206 MB)\n" +
@@ -342,7 +447,20 @@
     }
 
     // 9. History / SQLite / Export / Database / Search
-    if (anyMatch(q, ["history", "sqlite", "wal", "export", "saved", "archive", "database", "search history", "delete history", "clear history"])) {
+    if (
+      anyMatch(q, [
+        "history",
+        "sqlite",
+        "wal",
+        "export",
+        "saved",
+        "archive",
+        "database",
+        "search history",
+        "delete history",
+        "clear history",
+      ])
+    ) {
       return (
         "### SQLite WAL History & Export\n\n" +
         "- **Local Persistence:** Extractions are logged in an SQLite Write-Ahead Logging database (`history.db`).\n" +
@@ -353,7 +471,20 @@
     }
 
     // 10. System Tray / Background Operation / Loop Guard / How it Works
-    if (anyMatch(q, ["tray", "background", "loop", "overwrite", "debounce", "sequence", "how it works", "overview", "what is clipotxt", "explain"])) {
+    if (
+      anyMatch(q, [
+        "tray",
+        "background",
+        "loop",
+        "overwrite",
+        "debounce",
+        "sequence",
+        "how it works",
+        "overview",
+        "what is clipotxt",
+        "explain",
+      ])
+    ) {
       return (
         "### How ClipoTxt Works:\n\n" +
         "1. **Direct Win32 Listener:** Listens directly to Windows clipboard events with 0% idle CPU polling.\n" +
@@ -364,7 +495,21 @@
     }
 
     // 11. System Requirements / Mac / Linux / Hardware
-    if (anyMatch(q, ["mac", "macbook", "macos", "linux", "requirements", "specs", "windows 10", "windows 11", "system requirements", "ram", "hardware"])) {
+    if (
+      anyMatch(q, [
+        "mac",
+        "macbook",
+        "macos",
+        "linux",
+        "requirements",
+        "specs",
+        "windows 10",
+        "windows 11",
+        "system requirements",
+        "ram",
+        "hardware",
+      ])
+    ) {
       return (
         "### System Requirements:\n\n" +
         "- **OS:** Windows 10 or Windows 11 (64-bit x64).\n" +
@@ -377,10 +522,33 @@
 
     // 12. Check if query is on-topic for ClipoTxt (broad check)
     const clipoKeywords = [
-      "clipo", "ocr", "snip", "screenshot", "clipboard", "paste", "copy",
-      "text", "image", "capture", "tool", "app", "desktop", "software",
-      "window", "win32", "bharath", "onnx", "model", "rapidocr", "hotkey",
-      "shortcut", "setting", "install", "download", "run", "benchmark"
+      "clipo",
+      "ocr",
+      "snip",
+      "screenshot",
+      "clipboard",
+      "paste",
+      "copy",
+      "text",
+      "image",
+      "capture",
+      "tool",
+      "app",
+      "desktop",
+      "software",
+      "window",
+      "win32",
+      "bharath",
+      "onnx",
+      "model",
+      "rapidocr",
+      "hotkey",
+      "shortcut",
+      "setting",
+      "install",
+      "download",
+      "run",
+      "benchmark",
     ];
     const isOnTopic = clipoKeywords.some((k) => q.includes(k));
 
@@ -626,7 +794,9 @@
       if (!q) return;
 
       // Allow setting or updating API key directly in chat if user provides an xAI key
-      const keySetMatch = q.match(/^(?:set\s+)?(?:grok_?)?(?:api_?)?key[:=]\s*(xai-[a-zA-Z0-9_-]+)/i);
+      const keySetMatch = q.match(
+        /^(?:set\s+)?(?:grok_?)?(?:api_?)?key[:=]\s*(xai-[a-zA-Z0-9_-]+)/i,
+      );
       if (keySetMatch) {
         grokKey = keySetMatch[1].trim();
         try {
@@ -675,12 +845,16 @@
               temperature: 0.3,
               max_tokens: 800,
             }),
-            signal: controller.signal
+            signal: controller.signal,
           });
           clearTimeout(timeoutId);
           if (r.ok) {
             const resJson = await r.json();
-            if (resJson.choices && resJson.choices[0] && resJson.choices[0].message) {
+            if (
+              resJson.choices &&
+              resJson.choices[0] &&
+              resJson.choices[0].message
+            ) {
               replyText = resJson.choices[0].message.content;
               source = "grok";
             }
