@@ -3,9 +3,13 @@
   window.ClipoDemo = window.ClipoDemo || {};
 
   const MODES = [
-    { id: "guided", label: "Guided", desc: "ClipoTxt logo points step by step" },
+    {
+      id: "guided",
+      label: "Guided",
+      desc: "ClipoTxt logo points step by step",
+    },
     { id: "hints", label: "Hints", desc: "Subtle highlights only" },
-    { id: "explore", label: "Explore", desc: "Free hands-on controls" }
+    { id: "explore", label: "Explore", desc: "Free hands-on controls" },
   ];
 
   function createGuidanceMode(mountEl, store, opts) {
@@ -18,7 +22,8 @@
     tourBtn.type = "button";
     tourBtn.className = "ct-tour-btn";
     tourBtn.dataset.action = "logo-tour";
-    tourBtn.title = "Watch the ClipoTxt logo walk through each click step by step";
+    tourBtn.title =
+      "Watch the ClipoTxt logo walk through each click step by step";
     tourBtn.innerHTML = `<span class="ct-tour-dot" aria-hidden="true"></span><span data-tour-lbl>Logo Tour</span>`;
 
     const wrap = document.createElement("div");
@@ -26,7 +31,8 @@
     wrap.setAttribute("role", "tablist");
     wrap.setAttribute("aria-label", "Demonstration guidance mode");
 
-    wrap.innerHTML = MODES.map((m) => `
+    wrap.innerHTML = MODES.map(
+      (m) => `
       <button
         type="button"
         class="ct-mode-btn"
@@ -35,7 +41,8 @@
         aria-selected="false"
         title="${m.desc}"
       >${m.label}</button>
-    `).join("");
+    `,
+    ).join("");
 
     ctrls.append(tourBtn, wrap);
     mountEl.appendChild(ctrls);
@@ -60,7 +67,11 @@
       tourBtn.title = lockedOnce
         ? "One-time logo walkthrough finished — refresh page to replay guide"
         : "Watch the ClipoTxt logo walk through each click step by step";
-      tourLbl.textContent = lockedOnce ? "Refresh for Guide" : (playing ? "Stop Tour" : "Logo Tour");
+      tourLbl.textContent = lockedOnce
+        ? "Refresh for Guide"
+        : playing
+          ? "Stop Tour"
+          : "Logo Tour";
     }
 
     tourBtn.addEventListener("click", () => {
@@ -71,8 +82,15 @@
     wrap.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-guidance-mode]");
       if (!btn || btn.disabled) return;
-      if (store.getState().guideUsedOnce && btn.dataset.guidanceMode !== "explore") return;
-      store.setState({ guidanceMode: btn.dataset.guidanceMode, tourPlaying: false });
+      if (
+        store.getState().guideUsedOnce &&
+        btn.dataset.guidanceMode !== "explore"
+      )
+        return;
+      store.setState({
+        guidanceMode: btn.dataset.guidanceMode,
+        tourPlaying: false,
+      });
     });
 
     wrap.addEventListener("keydown", (e) => {
@@ -83,12 +101,18 @@
         e.preventDefault();
         const next = buttons[(idx + 1) % buttons.length];
         next.focus();
-        store.setState({ guidanceMode: next.dataset.guidanceMode, tourPlaying: false });
+        store.setState({
+          guidanceMode: next.dataset.guidanceMode,
+          tourPlaying: false,
+        });
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
         const prev = buttons[(idx - 1 + buttons.length) % buttons.length];
         prev.focus();
-        store.setState({ guidanceMode: prev.dataset.guidanceMode, tourPlaying: false });
+        store.setState({
+          guidanceMode: prev.dataset.guidanceMode,
+          tourPlaying: false,
+        });
       }
     });
 

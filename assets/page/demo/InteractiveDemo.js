@@ -125,7 +125,7 @@
         finishDone: true,
         tourPlaying: false,
         guideUsedOnce: true,
-        guidanceMode: "explore"
+        guidanceMode: "explore",
       });
       setKnotState("ready");
     }
@@ -288,7 +288,9 @@
       const targetEl = guideInfo ? guideInfo.el : null;
       const effectiveMode = state.guideUsedOnce
         ? "explore"
-        : (revealed ? state.guidanceMode : "explore");
+        : revealed
+          ? state.guidanceMode
+          : "explore";
 
       overlay.update({
         mode: effectiveMode,
