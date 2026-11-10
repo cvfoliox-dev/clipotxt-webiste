@@ -10,3 +10,4 @@ Official landing page and interactive web experience for **ClipoTxt** — the lo
 
 ## Setup & Deployment
 Open `index.html` directly in any web browser, or host on GitHub Pages, Netlify, or Vercel.
+

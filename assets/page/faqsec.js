@@ -23,17 +23,21 @@
   ];
   const plain = (h) => h.replace(/<[^>]+>/g, "");
   const STOP = ["is", "it", "the", "a", "an", "do", "does", "can", "how", "what", "i", "my", "to", "of", "on", "in", "there", "for"];
+  const CLIPO_ICON = `<svg viewBox="0 0 512 512" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M52 92 L388 92 L396 168 L252 408 L52 418Z" fill="#8cc152" fill-opacity="0.9"/>
+    <path d="M38 80 V428 M38 80 H436 M38 430 H287 M64 100 L96 132 M438 84 L376 134 M322 204 H476 M252 281 H412 M190 354 H348" stroke="#f1ecdf" stroke-width="34"/>
+  </svg>`;
   function mount(root) {
     root.innerHTML = `<div class="sec">
       <div class="head reveal"><div class="mono">Questions & Answers</div><h2 class="serif">Everything about ClipoTxt, <em>answered here.</em></h2><p>Search questions about offline OCR, formats, and performance.</p></div>
-      <label class="ask reveal"><span class="fknot" aria-hidden="true"><canvas></canvas></span><span class="sr">Search the questions</span><input type="text" placeholder="What do you need help with?" autocomplete="off" spellcheck="false"><span class="count">${FAQ.length} questions</span></label>
+      <label class="ask reveal"><span class="fknot" aria-hidden="true" data-state="idle">${CLIPO_ICON}</span><span class="sr">Search the questions</span><input type="text" placeholder="What do you need help with?" autocomplete="off" spellcheck="false"><span class="count">${FAQ.length} questions</span></label>
       <div class="tries reveal" aria-label="Try"><button type="button">Is it free?</button><button type="button">Win + Shift + S</button><button type="button">Is it local?</button><button type="button">Smart Format Mode</button><button type="button">Won’t install</button></div>
       <div class="qlist reveal">${FAQ.map((f, i) => `<div class="qrow" data-i="${i}"><button type="button" class="qh" aria-expanded="false"><span class="qt">${f.q}</span><span class="pl" aria-hidden="true"></span></button>
         <div class="body"><div><div class="bub"><div class="k">ClipoTxt</div><div class="ans">${f.a}</div></div></div></div></div>`).join("")}</div>
       <p class="none">Nothing matched. Ask us directly below.</p>
       <div class="more reveal"><div><b>Didn’t see yours?</b><p>Send it to Bharath. Questions get answered here, and feature requests get built first.</p></div><a class="fbtn" href="mailto:bharathtommandru1@gmail.com">Ask Bharath</a></div></div>`;
     const input = root.querySelector(".ask input"), count = root.querySelector(".ask .count"), none = root.querySelector(".none"), rows = [...root.querySelectorAll(".qrow")];
-    const cv = root.querySelector(".fknot canvas"), knot = window.NusKnot3D ? NusKnot3D.mount(cv) : null, st = (s) => knot && knot.setState && knot.setState(s);
+    const fknot = root.querySelector(".fknot"), st = (s) => { if (fknot) fknot.dataset.state = s || "idle"; };
     const open = (r, on) => { r.classList.toggle("open", on); r.querySelector(".qh").setAttribute("aria-expanded", on); };
     rows.forEach((r) => r.querySelector(".qh").addEventListener("click", () => open(r, !r.classList.contains("open"))));
     const words = (s) => s.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter((w) => w.length > 1 && !STOP.includes(w));
