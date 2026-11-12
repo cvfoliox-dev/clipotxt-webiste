@@ -123,7 +123,7 @@
       <div><h4 class="mono">Set up</h4><ul><li><a href="#setup">Setup guide</a></li><li><a href="#pricing">Free & Local</a></li><li><a href="#faq">Questions & Answers</a></li><li><a href="#next">How it works</a></li></ul></div>
       <div><h4 class="mono">My Work</h4><ul><li><a href="https://cvfoliox.in/" target="_blank" rel="noopener noreferrer">CVFolioX</a></li><li><a href="https://findthebuilders.pages.dev/" target="_blank" rel="noopener noreferrer">FindTheBuilders</a></li><li><a href="https://www.instagram.com/conc.eptclarity" target="_blank" rel="noopener noreferrer">Instagram (@conc.eptclarity)</a></li><li><a href="https://www.youtube.com/@setupsimplified-01" target="_blank" rel="noopener noreferrer">YouTube (@setupsimplified-01)</a></li></ul></div>
       <div><h4 class="mono">Talk to us</h4><ul><li><a href="mailto:bharathtommandru1@gmail.com">Email Bharath</a></li><li><a href="#feedback">Give feedback</a></li><li><a href="#now">Roadmap</a></li></ul></div></div>
-      <div class="meta"><span>ClipoTxt, 2026</span><span>Your screenshots stay on your computer. 100% local OCR processing.</span></div>
+      <div class="meta"><span>ClipoTxt, 2026</span><span>ClipoTxt — Founded by Bharath Thommandru.</span><span>Your screenshots stay on your computer. 100% local OCR processing.</span></div>
       <div class="mark" aria-hidden="true"><div class="w" style="font-size:18vw">CLIPOTXT</div><div class="m" style="display:none"></div></div>`;
     const mark = root.querySelector(".mark");
     const w = mark.querySelector(".w"),
