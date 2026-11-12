@@ -22,8 +22,8 @@
   const DEF = {
     nodes: [
       { label: "WIN + SHIFT + S", x: 0.36, y: 0.092, weight: 1 },
-      { label: "SMART FORMAT", x: 0.747, y: 0.25, weight: 3 },
-      { label: "LOCAL PP-OCRV4", x: 0.19, y: 0.492, weight: 1.6 },
+      { label: "SMART FORMATTING", x: 0.747, y: 0.25, weight: 3 },
+      { label: "LOCAL OCR ENGINE", x: 0.19, y: 0.492, weight: 1.6 },
       { label: "INSTANT CTRL + V", x: 0.696, y: 0.509, weight: 0.8 },
     ],
     centerX: 0.485, centerY: 0.316, radius: 0.215,
@@ -286,7 +286,7 @@
         wctx.textAlign = align; wctx.fillStyle = colour; wctx.fillText(text, x, y);
       };
 
-      // the tasks that plug into the orb ("Most AI gets more capable")
+      // the tasks that plug into the orb ("Capture. Extract. Paste.")
       if (o.tasks !== false) TASKS.forEach((label, i) => {   // tasks:false replays only the re-comb (final CTA)
         const a = f.tasks[i] * (1 - f.recomb); if (a <= 0.01) return;
         const tx = W * 0.8, ty = H * (0.25 + i * 0.12);

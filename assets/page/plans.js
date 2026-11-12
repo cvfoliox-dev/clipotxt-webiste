@@ -15,7 +15,7 @@
   const TICK = '<svg class="tick" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>';
   const PLANS = [
     { name: "ClipoTxt Installer", price: "$0", one: "Free Windows desktop utility. No plan. No account needed.",
-      list: ["Automatic clipboard screenshot detection", "Local RapidOCR + PP-OCRv4 CPU inference", "Smart Format Mode with structured Markdown", "System Tray & Ctrl + Alt + O global toggle"],
+      list: ["Automatic clipboard screenshot detection", "Local OCR processing on your Windows CPU", "Smart Format Mode with structured Markdown", "System Tray & Ctrl + Alt + O global toggle"],
       foot: `<a class="btn solid" href="${L.installer}">Download Installer</a>`, small: "Version 1.0.3. Windows 10 and 11 (64-bit)." },
     { name: "Unlimited History", price: "$0", one: "Forever. No trial clock. No capture caps.",
       list: ["Unlimited local SQLite WAL persistence", "Instant full-text history search", "Export individual or combined .md Markdown", "Deterministic CPU & fixed OCR benchmarks"],
@@ -79,7 +79,7 @@
         <ul>${p.list.map((l) => `<li>${TICK}<span>${l}</span></li>`).join("")}</ul>
         <div class="foot"><div class="btns">${p.foot}</div>${p.small ? `<p class="small">${p.small}</p>` : ""}</div>
       </article>`).join("")}</div>
-      <p class="keys reveal"><b>Zero cloud dependencies.</b> Everything runs locally on your Windows CPU using RapidOCR and PP-OCRv4. No OpenAI, Anthropic, or external API keys needed.</p>
+      <p class="keys reveal"><b>Zero cloud dependencies.</b> Everything runs locally on your Windows PC. No accounts, subscriptions, or external API keys needed.</p>
     </div>`;
     const sec = root.querySelector(".sec"), cols = [...root.querySelectorAll(".col")];
     let hot = -1;

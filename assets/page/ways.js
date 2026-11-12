@@ -53,12 +53,12 @@
   /* ---------- the two products (shipped facts only) ---------- */
   function companionCopy() {
     return `<h3 class="serif">Clipboard Engine</h3>
-      <p class="one">Instant background screenshot OCR for Windows. Automatically detects newly copied screenshots, extracts clean text on your CPU, and updates your clipboard in milliseconds.</p>
+      <p class="one">Convert any screenshot into usable text right in the background. Automatically detects newly copied captures, extracts their visible content on your CPU, and puts the result straight on your clipboard.</p>
       <ul>
-        <li><span><b>Win + Shift + S to snip.</b> <span class="d">Automatic clipboard interception without CPU polling.</span></span></li>
-        <li><span><b>RapidOCR + PP-OCRv4.</b> <span class="d">4 intra-op threads on CPU; sub-second local inference (~600–800 ms).</span></span></li>
-        <li><span><b>Smart Format Mode.</b> <span class="d">Generates structured Markdown with spatial layout, tables, and code blocks.</span></span></li>
-        <li><span><b>Auto-replacement guard.</b> <span class="d">Replaces clipboard image with clean text; sequence ID prevents overwriting newer copies.</span></span></li>
+        <li><span><b>Win + Shift + S to capture.</b> <span class="d">Automatic clipboard detection with zero CPU polling.</span></span></li>
+        <li><span><b>Local OCR Engine.</b> <span class="d">Runs locally across multiple CPU cores for fast, sub-second text extraction.</span></span></li>
+        <li><span><b>Smart Format Mode.</b> <span class="d">Preserves readable layout across paragraphs, headings, lists, tables, and code.</span></span></li>
+        <li><span><b>Auto-replacement guard.</b> <span class="d">Replaces the clipboard screenshot with clean extracted text; sequence ID prevents overwriting newer copies.</span></span></li>
         <li><span><b>System Tray & Hotkeys.</b> <span class="d">Ctrl + Alt + O global toggle, non-intrusive notification toast, 0% idle CPU.</span></span></li>
       </ul>
       <div class="bottom">
@@ -70,7 +70,7 @@
             <p>ClipoTxt installs directly in seconds and opens straight into your system tray and workspace.</p>
             <p class="didit-h">Troubleshooting</p>
             <ul class="didit-fixes">
-              <li><b>Right file?</b> It is <b>ClipoTxt-Setup-v1.0.3.exe</b>, about 206 MB (bundles all ONNX neural weights). You can also use the Portable ZIP.</li>
+              <li><b>Right file?</b> It is <b>ClipoTxt-Setup-v1.0.3.exe</b>, about 206 MB (includes the standalone local OCR engine). You can also use the Portable ZIP.</li>
               <li><b>Antivirus took it?</b> Restore it from your antivirus quarantine, or allow it, then run it again.</li>
               <li><b>Nothing happened?</b> It installs in a few seconds. Look for <b>ClipoTxt</b> in the Start menu or system tray.</li>
               <li>It needs Windows 10 or 11, 64-bit.</li>
@@ -91,11 +91,11 @@
   }
   function studentsCopy() {
     return `<h3 class="serif">Desktop Workspace</h3>
-      <p class="one">A dedicated desktop interface for browsing your unlimited capture history, exporting structured Markdown, and benchmarking your CPU.</p>
+      <p class="one">A dedicated desktop interface to search your unlimited capture history, copy or export past screenshot conversions, and benchmark your CPU.</p>
       <ul>
         <li><span><b>Home & Live Monitoring.</b> <span class="d">Real-time clipboard status, instant preview, one-click pause/resume.</span></span></li>
         <li><span><b>SQLite WAL History.</b> <span class="d">Unlimited local capture archive, instant search, combined .md Markdown export.</span></span></li>
-        <li><span><b>Hardware Benchmarks.</b> <span class="d">Deterministic CPU SIMD ops/sec benchmark and fixed synthetic image OCR benchmark.</span></span></li>
+        <li><span><b>Hardware Benchmarks.</b> <span class="d">Built-in CPU speed benchmark and local image OCR latency test.</span></span></li>
       </ul>
       <div class="bottom">
         <div class="chips"><span class="chip hi">Local SQLite</span><span class="chip hi">Export .md</span><span class="chip hi">Hardware Benchmarks</span></div>
@@ -110,7 +110,7 @@
   ];
   const SCENES = [
     ["Snip", "Win+Shift+S", 5.6],
-    ["OCR", "PP-OCRv4", 6.4],
+    ["OCR", "Local OCR", 6.4],
     ["Paste", "Ctrl + V", 5.4],
     ["History", "SQLite .md", 6.2],
     ["Toggle", "Ctrl+Alt+O", 10.4],
@@ -146,11 +146,11 @@
         </div>
       </div>
 
-      <!-- Tab 2: OCR (PP-OCRv4) -->
+      <!-- Tab 2: Local OCR -->
       <div class="cdesk-scene s-ocr">
-        <div class="gl cdesk-pill"><span class="pulse-dot"></span><span>RapidOCR PP-OCRv4 • 0.68s on CPU</span></div>
+        <div class="gl cdesk-pill"><span class="pulse-dot"></span><span>Local OCR Engine • 0.68s on CPU</span></div>
         <div class="ocr-card">
-          <div class="ocr-bar"><span class="ocr-tag">PP-OCRv4 ONNX</span><span class="ocr-info">4 threads • CPU SIMD</span></div>
+          <div class="ocr-bar"><span class="ocr-tag">LOCAL OCR</span><span class="ocr-info">4 threads • CPU Local</span></div>
           <div class="ocr-preview">
             <div class="ocr-laser"></div>
             <div class="ocr-line-box b1"><span>[Error: ECONNREFUSED 127.0.0.1:5432]</span><span class="conf">0.99</span></div>
@@ -163,14 +163,14 @@
 
       <!-- Tab 3: Paste (Ctrl + V) -->
       <div class="cdesk-scene s-paste">
-        <div class="gl cdesk-badge"><kbd>Ctrl</kbd><kbd>V</kbd><span>Zero Screenshot Limits</span></div>
+        <div class="gl cdesk-badge"><kbd>Ctrl</kbd><kbd>V</kbd><span>Paste Anywhere</span></div>
         <div class="paste-window">
-          <div class="paste-bar"><span class="p-dot"></span><span class="p-title">IDE / Editor Input — Paste Context</span></div>
-          <div class="paste-body">
-            <div class="paste-prompt">Fix this database connection failure:</div>
+          <div class="paste-bar"><span class="p-dot"></span><span class="p-title">Destination App — Paste Context</span></div>
+            <div class="paste-body">
+            <div class="paste-prompt">Reviewing this captured content:</div>
             <div class="paste-code">
-              <div class="code-header"><span>Markdown (Smart Format Mode)</span><span class="copy-tag">Pasted via Ctrl+V</span></div>
-              <pre class="code-pre"><code><span class="c-h">### Screenshot Analysis</span>
+              <div class="code-header"><span>Usable Extracted Text (Smart Format)</span><span class="copy-tag">Pasted via Ctrl+V</span></div>
+              <pre class="code-pre"><code><span class="c-h">### Extracted Screenshot Text</span>
 <span class="c-k">&#x60;&#x60;&#x60;text</span>
 <span class="c-err">[Error: ECONNREFUSED 127.0.0.1:5432]</span>
 Failed to connect to local PostgreSQL instance
@@ -178,7 +178,7 @@ at Connection.connect (/app/db/client.ts:42:15)
 <span class="c-k">&#x60;&#x60;&#x60;</span></code></pre>
             </div>
           </div>
-          <div class="paste-foot"><span class="dot-green"></span> Clipboard updated with clean formatted text in 0.68s</div>
+          <div class="paste-foot"><span class="dot-green"></span> Clipboard updated with usable extracted text in 0.68s</div>
         </div>
       </div>
 
@@ -197,11 +197,11 @@ at Connection.connect (/app/db/client.ts:42:15)
             </div>
             <div class="hist-item">
               <div class="hi-time">10:14 AM • Table • 420 chars</div>
-              <div class="hi-txt">| Metric | Target | RapidOCR | Speedup |</div>
+              <div class="hi-txt">| Item | Value | Processing | Status |</div>
             </div>
             <div class="hist-item">
-              <div class="hi-time">Yesterday • Python • 312 chars</div>
-              <div class="hi-txt">def extract_text(bitmap): engine = RapidOCR()</div>
+              <div class="hi-time">Yesterday • Notes • 312 chars</div>
+              <div class="hi-txt">Turn any screenshot into clean, usable text with Ctrl + V</div>
             </div>
           </div>
           <div class="hist-toast"><span class="ok-chk">✓</span> Saved locally in SQLite WAL mode (%LOCALAPPDATA%\\ClipoTxt)</div>
@@ -303,15 +303,26 @@ at Connection.connect (/app/db/client.ts:42:15)
         const sc = sceneEls[0];
         const snipBox = sc.querySelector(".snip-box");
         const crosshair = sc.querySelector(".snip-crosshair");
-        if (snipBox) { snipBox.style.opacity = "0"; snipBox.style.transform = "scale(0.95)"; }
-        if (crosshair) { crosshair.style.opacity = "0"; }
+        if (snipBox) {
+          snipBox.style.opacity = "0";
+          snipBox.style.transform = "scale(0.95)";
+        }
+        if (crosshair) {
+          crosshair.style.opacity = "0";
+        }
         await w(400);
-        if (crosshair) { crosshair.style.opacity = "1"; crosshair.style.transform = "translate(10px, 8px)"; }
+        if (crosshair) {
+          crosshair.style.opacity = "1";
+          crosshair.style.transform = "translate(10px, 8px)";
+        }
         await w(600);
-        if (snipBox) { snipBox.style.opacity = "1"; snipBox.style.transform = "none"; }
+        if (snipBox) {
+          snipBox.style.opacity = "1";
+          snipBox.style.transform = "none";
+        }
         await w(3500);
       },
-      // Tab 2: OCR (PP-OCRv4)
+      // Tab 2: Local OCR
       async (w) => {
         const sc = sceneEls[1];
         const boxes = [...sc.querySelectorAll(".ocr-line-box")];
@@ -327,7 +338,7 @@ at Connection.connect (/app/db/client.ts:42:15)
       async (w, type) => {
         const sc = sceneEls[2];
         const codePre = sc.querySelector(".code-pre code");
-        const full = `### Screenshot Analysis\n\`\`\`text\n[Error: ECONNREFUSED 127.0.0.1:5432]\nFailed to connect to PostgreSQL\nat Connection.connect (/app/db/client.ts:42:15)\n\`\`\``;
+        const full = `### Extracted Screenshot Text\n\`\`\`text\n[Error: ECONNREFUSED 127.0.0.1:5432]\nFailed to connect to PostgreSQL\nat Connection.connect (/app/db/client.ts:42:15)\n\`\`\``;
         if (codePre) {
           codePre.textContent = "";
           await w(400);
@@ -609,7 +620,8 @@ at Connection.connect (/app/db/client.ts:42:15)
   const FEEDBACK_API =
     "https://xnpkplcjurzwanotmwwt.supabase.co/functions/v1/submit-feedback";
   const FEEDBACK_KEY = "sb_publishable_yBEA9loOsDI9E_HMFIVCRQ_PZvTD8rB";
-  const ISSUES = "https://github.com/cvfoliox-dev/clipotxt-releases/issues/new?title=";
+  const ISSUES =
+    "https://github.com/cvfoliox-dev/clipotxt-releases/issues/new?title=";
   const DIDNT_NOTE =
     "ClipoTxt did not install (from the site's Did it install? box).";
   function siteId() {

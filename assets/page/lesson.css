@@ -1070,7 +1070,7 @@
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--c-white-8);
 }
-/* Stage 03: Claude Code New Chat Workspace */
+/* Stage 03: Destination Editor Workspace */
 .ct-dest-app {
   max-width: 920px;
   margin: 0 auto;

@@ -1,6 +1,8 @@
-/* ClipoTxt Interactive Demo — Stage 03: Paste into Claude Code New Chat */
+/* ClipoTxt Interactive Demo — Stage 03: Paste into Simulated Destination Editor */
 (function () {
   window.ClipoDemo = window.ClipoDemo || {};
+
+  const DOC_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ct-cc-spark" style="color:#8cc152" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`;
 
   function createPasteStage(container, store, opts) {
     const { onReplay, onFinish, onGoExtract, onActionPulse } = opts;
@@ -14,23 +16,23 @@
       <div class="ct-dest-app ct-cc-app" data-cc-app>
         <div class="ct-dest-bar ct-cc-bar">
           <div class="ct-dest-title">
-            <img src="${DATA.claudeLogoSrc}" alt="" width="16" height="16" class="ct-cc-spark" />
-            <span class="ct-cc-name">Claude Code</span>
-            <span class="ct-dest-badge mono">NEW CHAT</span>
+            ${DOC_ICON}
+            <span class="ct-cc-name">Destination Editor</span>
+            <span class="ct-dest-badge mono">SIMULATED WORKSPACE</span>
           </div>
-          <div class="ct-dest-clip mono" data-dest-clip>Clipboard: Text copied</div>
+          <div class="ct-dest-clip mono" data-dest-clip>Simulated Clipboard: Text copied</div>
         </div>
 
         <div class="ct-cc-workspace" data-cc-workspace>
           <div class="ct-cc-visual-col">
             <div class="ct-cc-shot-frame">
               <div class="ct-cc-shot-bar mono">
-                <span>CLAUDE CODE · NEW CHAT SESSION</span>
-                <span>D:\\clipotxt</span>
+                <span>CLIPOTXT APP · READY IN BACKGROUND</span>
+                <span>100% LOCAL</span>
               </div>
               <img
-                src="${DATA.claudeCodeShotSrc}"
-                alt="Claude Code New Chat interface"
+                src="${DATA.appHomeSrc}"
+                alt="ClipoTxt desktop workspace showing extracted text ready to paste"
                 class="ct-cc-shot"
                 decoding="async"
               />
@@ -38,8 +40,8 @@
 
             <div class="ct-rendered-preview" data-rendered-preview hidden>
               <div class="ct-rp-head mono">
-                <span>PASTED INTO CLAUDE CODE</span>
-                <span>Markdown preserved &middot; 0 image uploads spent</span>
+                <span>PASTED IN DESTINATION EDITOR</span>
+                <span>Formatting preserved &middot; Ctrl + V</span>
               </div>
               <table class="ct-rp-table">
                 <thead>
@@ -57,8 +59,8 @@
 
           <div class="ct-cc-chat-col">
             <div class="ct-dest-prompt-row">
-              <span class="ct-user-pill mono">CHAT INPUT</span>
-              <span>Paste extracted table into Claude Code (0 screenshot uploads):</span>
+              <span class="ct-user-pill mono">DESTINATION INPUT</span>
+              <span>Click inside the simulated editor and press <b>Ctrl + V</b>:</span>
             </div>
 
             <div class="ct-editor-box ct-cc-composer" data-editor-box>
@@ -68,15 +70,15 @@
                 data-demo-target="paste-input"
                 rows="8"
                 spellcheck="false"
-                placeholder="Ask Claude to edit... Click here and press Ctrl + V to paste extracted Markdown"
-                aria-label="Claude Code prompt composer. Press Ctrl + V or click Paste Text to insert extracted Markdown."
+                placeholder="Click here and press Ctrl + V to paste extracted text..."
+                aria-label="Simulated destination editor. Click and press Ctrl + V or tap Paste Text to insert the extracted content."
               ></textarea>
               <div class="ct-editor-toolbar ct-cc-toolbar">
                 <div class="ct-cc-chips mono" aria-hidden="true">
-                  <span class="ct-cc-chip">+</span>
-                  <span class="ct-cc-chip">/</span>
-                  <span class="ct-cc-chip model">Sonnet 4.6</span>
-                  <span class="ct-cc-chip">Manual</span>
+                  <span class="ct-cc-chip">Document</span>
+                  <span class="ct-cc-chip">Notes</span>
+                  <span class="ct-cc-chip model">Clean Output</span>
+                  <span class="ct-cc-chip">Browser Demo</span>
                 </div>
                 <div class="ct-editor-btns">
                   <button type="button" class="ct-primary-action ct-cc-paste-btn" data-action="paste-btn">
@@ -94,11 +96,11 @@
 
             <div class="ct-paste-instr" data-paste-instr>
               <kbd>Ctrl</kbd><span>+</span><kbd>V</kbd>
-              <span>inside the Claude Code box above, or click <b>Paste Text</b></span>
+              <span>inside the simulated editor above, or tap <b>Paste Text</b></span>
             </div>
 
             <div class="ct-need-extract" data-need-extract hidden>
-              <span>Waiting for automatic Stage 02 OCR to populate the clipboard.</span>
+              <span>Waiting for automatic Stage 02 OCR to prepare the simulated clipboard.</span>
               <button type="button" class="ct-mini-next" data-action="jump-extract">View Stage 02 Status</button>
             </div>
           </div>
@@ -109,17 +111,17 @@
           <div class="ct-finish-logos" aria-hidden="true">
             <img src="${DATA.logoSrc}" alt="" width="34" height="34" />
             <span class="ct-finish-arrow mono">&rarr;</span>
-            <img src="${DATA.claudeLogoSrc}" alt="" width="30" height="30" />
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8cc152" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg>
           </div>
-          <h4>Capture &rarr; Local OCR &rarr; Claude Code</h4>
+          <h4>Capture &rarr; Local OCR &rarr; Paste</h4>
           <p>
-            You captured a desktop region, extracted a clean Markdown table locally via RapidOCR PP-OCRv4,
-            and pasted straight into Claude Code without spending an image upload.
+            You captured a screenshot, watched local OCR extract its content automatically,
+            and pasted clean, usable text right into the simulated editor.
           </p>
           <div class="ct-finish-stats mono">
-            <span>571.5 ms local OCR</span>
+            <span>Sub-second local OCR</span>
             <span>98.6% confidence</span>
-            <span>0 screenshot uploads used</span>
+            <span>100% local &middot; paste anywhere</span>
           </div>
           <div class="ct-finish-actions">
             <a href="#ways" class="ct-primary-action ct-finish-dl">Pick your download</a>
@@ -139,7 +141,9 @@
     const pasteBtn = el.querySelector('[data-action="paste-btn"]');
     const finishBtn = el.querySelector('[data-action="finish-btn"]');
     const replayBtn = el.querySelector('[data-action="replay-from-paste"]');
-    const replayFinishBtn = el.querySelector('[data-action="replay-from-finish"]');
+    const replayFinishBtn = el.querySelector(
+      '[data-action="replay-from-finish"]',
+    );
     const pasteInstrEl = el.querySelector("[data-paste-instr]");
     const previewEl = el.querySelector("[data-rendered-preview]");
     const needExtractEl = el.querySelector("[data-need-extract]");
@@ -148,19 +152,27 @@
     let typeTimer = 0;
 
     function getClipText(state) {
-      return state.aiContextMode ? DATA.extractedMarkdown : DATA.extractedPlain;
+      return state.smartFormatting
+        ? DATA.extractedMarkdown
+        : DATA.extractedPlain;
     }
 
     function performPaste() {
       const s = store.getState();
       if (s.extractPhase !== "copied") {
-        store.setState({ captureDone: true, extractPhase: "copied", clipboardStatus: "Text copied" });
+        store.setState({
+          captureDone: true,
+          extractPhase: "copied",
+          clipboardStatus: "Text copied",
+        });
       }
       if (onActionPulse) onActionPulse();
       clearInterval(typeTimer);
 
       const text = getClipText(store.getState());
-      const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduce =
+        window.matchMedia &&
+        matchMedia("(prefers-reduced-motion: reduce)").matches;
       store.setState({ pastePhase: "pasted" });
 
       if (reduce) {
@@ -184,8 +196,16 @@
 
     // Intercept Ctrl + V / Cmd + V ONLY when focused inside the destination editor / Stage 03 box
     el.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "v") {
-        if (document.activeElement === editor || editorBox.contains(document.activeElement)) {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        !e.shiftKey &&
+        !e.altKey &&
+        e.key.toLowerCase() === "v"
+      ) {
+        if (
+          document.activeElement === editor ||
+          editorBox.contains(document.activeElement)
+        ) {
           e.preventDefault();
           performPaste();
         }
@@ -236,8 +256,8 @@
       destClipEl.textContent = finished
         ? "Session ready · Tour completed"
         : ready
-          ? `Clipboard: Text copied (${state.aiContextMode ? "Markdown" : "Plain"})`
-          : "Clipboard: Waiting for Stage 02 auto-OCR";
+          ? `Simulated Clipboard: Text copied (${state.smartFormatting ? "Markdown" : "Clean Text"})`
+          : "Simulated Clipboard: Waiting for Stage 02 OCR";
       destClipEl.classList.toggle("ready", ready || finished);
 
       pasteBtn.hidden = pasted;
@@ -258,18 +278,18 @@
           ptrText: "Click Finish",
           kicker: "ALL 3 STAGES DONE",
           title: "Click Finish to complete",
-          hint: "Text is pasted in Claude Code. Click Finish to wrap up the walkthrough.",
-          compactHint: "Click Finish"
+          hint: "Text is pasted cleanly. Click Finish to wrap up the walkthrough.",
+          compactHint: "Click Finish",
         };
       }
       return {
         el: editor,
         stepLabel: "2 / 3",
         ptrText: "Press Ctrl + V to paste",
-        kicker: "STAGE 03 · CLAUDE CODE PASTE",
+        kicker: "STAGE 03 · PASTE",
         title: "Press Ctrl + V to paste",
-        hint: "Focus the Claude Code composer and press Ctrl + V (or tap Paste Text).",
-        compactHint: "Focus prompt & press Ctrl + V"
+        hint: "Click the simulated editor and press Ctrl + V (or tap Paste Text).",
+        compactHint: "Focus editor & press Ctrl + V",
       };
     }
 
@@ -283,7 +303,7 @@
       destroy() {
         clearInterval(typeTimer);
         el.remove();
-      }
+      },
     };
   }
 

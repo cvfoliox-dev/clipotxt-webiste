@@ -34,7 +34,7 @@
           <div class="ct-app-top">
             <div>
               <div class="ct-app-kicker mono">AUTOMATIC CLIPBOARD LISTENER</div>
-              <h3 class="ct-app-h">Screenshots, meet clarity.</h3>
+              <h3 class="ct-app-h">Turn any screenshot into usable text.</h3>
             </div>
             <div class="ct-clip-indicator" data-clip-status>
               <span class="ct-clip-dot"></span>
@@ -49,13 +49,13 @@
                 <span class="mono">${DATA.imageDimensions}</span>
               </div>
               <div class="ct-preview-frame">
-                <img src="${DATA.imageSrc}" alt="Captured comparison table processed locally by ClipoTxt" />
+                <img src="${DATA.imageSrc}" alt="Captured screenshot processed locally by ClipoTxt" />
                 <div class="ct-scan-beam" aria-hidden="true"></div>
               </div>
               <div class="ct-format-row">
-                <button type="button" class="ct-ctx-toggle" data-action="toggle-ai-mode" aria-pressed="true">
-                  <span class="ct-ctx-pill">AI Context Mode</span>
-                  <span data-ai-mode-lbl>Structured Markdown</span>
+                <button type="button" class="ct-ctx-toggle" data-action="toggle-format-mode" aria-pressed="true">
+                  <span class="ct-ctx-pill">Smart Formatting</span>
+                  <span data-format-lbl>Structured Markdown</span>
                 </button>
                 <div class="ct-auto-badge" data-auto-badge>
                   <span class="ct-auto-dot" aria-hidden="true"></span>
@@ -67,16 +67,16 @@
             <div class="ct-app-result-card" aria-live="polite">
               <div class="ct-card-bar">
                 <span>Clipboard Text Output</span>
-                <span class="ct-perf-chip mono" data-perf-chip>RapidOCR PP-OCRv4</span>
+                <span class="ct-perf-chip mono" data-perf-chip>Local OCR Engine</span>
               </div>
               <div class="ct-result-body">
                 <div class="ct-result-empty" data-result-empty>
                   <div class="ct-empty-badge">Clipboard Image Detected</div>
-                  <p>Starting RapidOCR PP-OCRv4 locally on CPU automatically&hellip;</p>
+                  <p>Starting local OCR engine automatically&hellip;</p>
                 </div>
                 <div class="ct-result-scanning" data-result-scanning hidden>
                   <div class="ct-scan-spinner" aria-hidden="true"></div>
-                  <p>Extracting screenshot text locally on CPU&hellip;</p>
+                  <p>Extracting screenshot text locally&hellip;</p>
                 </div>
                 <div class="ct-result-output" data-result-output hidden>
                   <pre class="ct-md-pre" data-md-pre></pre>
@@ -96,7 +96,7 @@
                 <strong>ClipoTxt</strong>
                 <span class="ct-toast-tag mono">NOTIFICATION</span>
               </div>
-              <div class="ct-toast-title">Screenshot text extracted successfully.</div>
+              <div class="ct-toast-title">Screenshot processed successfully.</div>
               <div class="ct-toast-msg">Your clipboard is ready to paste.</div>
             </div>
             <img src="assets/demo/toast-copied.png" alt="" class="ct-toast-pill-img" />
@@ -107,8 +107,8 @@
 
     container.appendChild(el);
 
-    const aiToggleBtn = el.querySelector('[data-action="toggle-ai-mode"]');
-    const aiModeLbl = el.querySelector("[data-ai-mode-lbl]");
+    const formatToggleBtn = el.querySelector('[data-action="toggle-format-mode"]');
+    const formatLbl = el.querySelector("[data-format-lbl]");
     const autoBadgeEl = el.querySelector("[data-auto-badge]");
     const autoLblEl = el.querySelector("[data-auto-lbl]");
     const clipStatusEl = el.querySelector("[data-clip-status]");
@@ -136,12 +136,16 @@
     }
 
     function getOutputText(state) {
-      return state.aiContextMode ? DATA.extractedMarkdown : DATA.extractedPlain;
+      return state.smartFormatting
+        ? DATA.extractedMarkdown
+        : DATA.extractedPlain;
     }
 
     function revealTextProgressively(fullText, doneCb) {
       clearInterval(streamTimer);
-      const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduce =
+        window.matchMedia &&
+        matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) {
         mdPreEl.textContent = fullText;
         doneCb();
@@ -168,44 +172,58 @@
       autoPipelineRunning = true;
       clearAllTimers();
 
-      const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduce =
+        window.matchMedia &&
+        matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      kickTimer = setTimeout(() => {
-        if (store.getState().stage !== "extract") {
-          autoPipelineRunning = false;
-          return;
-        }
-        store.setState({
-          captureDone: true,
-          extractPhase: "scanning",
-          toastVisible: false,
-          clipboardStatus: "Processing locally..."
-        });
-
-        scanTimer = setTimeout(() => {
-          const cur = store.getState();
-          if (cur.stage !== "extract") {
+      kickTimer = setTimeout(
+        () => {
+          if (store.getState().stage !== "extract") {
             autoPipelineRunning = false;
             return;
           }
           store.setState({
-            extractPhase: "copied",
-            toastVisible: true,
-            clipboardStatus: "Text copied"
+            captureDone: true,
+            extractPhase: "scanning",
+            toastVisible: false,
+            clipboardStatus: "Processing locally...",
           });
 
-          revealTextProgressively(getOutputText(cur), () => {
-            autoPipelineRunning = false;
-            // Hold completion notification visibly so visitor reads toast, then proceed into Stage 03
-            advanceTimer = setTimeout(() => {
-              const latest = store.getState();
-              if (latest.stage === "extract" && latest.extractPhase === "copied") {
-                onAdvanceToPaste();
+          scanTimer = setTimeout(
+            () => {
+              const cur = store.getState();
+              if (cur.stage !== "extract") {
+                autoPipelineRunning = false;
+                return;
               }
-            }, reduce ? 300 : 1850);
-          });
-        }, reduce ? 70 : 580);
-      }, reduce ? 40 : 200);
+              store.setState({
+                extractPhase: "copied",
+                toastVisible: true,
+                clipboardStatus: "Text copied",
+              });
+
+              revealTextProgressively(getOutputText(cur), () => {
+                autoPipelineRunning = false;
+                // Hold completion notification visibly so visitor reads toast, then proceed into Stage 03
+                advanceTimer = setTimeout(
+                  () => {
+                    const latest = store.getState();
+                    if (
+                      latest.stage === "extract" &&
+                      latest.extractPhase === "copied"
+                    ) {
+                      onAdvanceToPaste();
+                    }
+                  },
+                  reduce ? 300 : 1850,
+                );
+              });
+            },
+            reduce ? 70 : 580,
+          );
+        },
+        reduce ? 40 : 200,
+      );
     }
 
     goPasteBtn.addEventListener("click", () => {
@@ -215,9 +233,9 @@
       }
     });
 
-    aiToggleBtn.addEventListener("click", () => {
-      const next = !store.getState().aiContextMode;
-      store.setState({ aiContextMode: next });
+    formatToggleBtn.addEventListener("click", () => {
+      const next = !store.getState().smartFormatting;
+      store.setState({ smartFormatting: next });
       if (store.getState().extractPhase === "copied") {
         mdPreEl.textContent = getOutputText(store.getState());
       }
@@ -228,8 +246,13 @@
       el.classList.toggle("is-scanning", state.extractPhase === "scanning");
       el.classList.toggle("is-copied", state.extractPhase === "copied");
 
-      aiToggleBtn.setAttribute("aria-pressed", state.aiContextMode ? "true" : "false");
-      aiModeLbl.textContent = state.aiContextMode ? "Structured Markdown" : "Plain Table Text";
+      formatToggleBtn.setAttribute(
+        "aria-pressed",
+        state.smartFormatting ? "true" : "false",
+      );
+      formatLbl.textContent = state.smartFormatting
+        ? "Structured Markdown"
+        : "Clean Text Output";
 
       emptyEl.hidden = state.extractPhase !== "idle";
       scanningEl.hidden = state.extractPhase !== "scanning";
@@ -254,11 +277,13 @@
         autoLblEl.textContent = "Auto-extracted & copied";
       } else if (state.extractPhase === "scanning") {
         clipLabelEl.textContent = "Extracting on CPU...";
-        perfChipEl.textContent = "PP-OCRv4 active";
+        perfChipEl.textContent = "Local OCR active";
         autoLblEl.textContent = "Running local OCR...";
       } else {
-        clipLabelEl.textContent = state.captureDone ? "Image detected" : "Waiting for screenshot";
-        perfChipEl.textContent = "RapidOCR PP-OCRv4";
+        clipLabelEl.textContent = state.captureDone
+          ? "Image detected"
+          : "Waiting for screenshot";
+        perfChipEl.textContent = "Local OCR Engine";
         autoLblEl.textContent = "Auto-OCR triggers on capture";
       }
 
@@ -266,7 +291,11 @@
       if (state.stage !== "extract" && state.extractPhase === "idle") {
         autoPipelineRunning = false;
         clearAllTimers();
-      } else if (state.stage === "extract" && state.extractPhase === "idle" && !autoPipelineRunning) {
+      } else if (
+        state.stage === "extract" &&
+        state.extractPhase === "idle" &&
+        !autoPipelineRunning
+      ) {
         runAutomaticExtraction();
       }
     }
@@ -284,7 +313,7 @@
       destroy() {
         clearAllTimers();
         el.remove();
-      }
+      },
     };
   }
 
