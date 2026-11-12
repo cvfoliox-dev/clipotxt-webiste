@@ -7,7 +7,7 @@
   const params = new URLSearchParams(location.search);
   const variants = {
     a: ['A · Pinch again', 'The strands run on out of the three plans and pinch into a bead over “Setup”, the same move as the one above pricing.'],
-    b: ['B · Local processing', '“100% local, zero cloud.” lights up, then a brass thread drops from it, behind the heading, into the feature overview.'],
+    b: ['B · Your key', '“Your AI, your key.” lights up, then a brass thread drops from it, behind the heading, into the app switcher.'],
     c: ['C · The thread becomes the steps', 'A thread leaves pricing, runs down beside the heading and becomes the rail through the numbered steps, lit up to the step playing now.'],
     original: ['Original', 'Pricing and Setup as approved, with no connection.'],
   };

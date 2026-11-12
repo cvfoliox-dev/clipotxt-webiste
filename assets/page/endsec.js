@@ -116,8 +116,8 @@
           <img src="assets/app_icon.png" width="28" height="28" alt="ClipoTxt" style="border-radius:6px;display:block">
           <b style="font-size:20px">ClipoTxt</b>
         </div>
-        <p>Copy. Extract. <em>Paste.</em> Turn any screenshot into usable text locally on Windows.</p>
-        <div class="status mono"><span>ClipoTxt 1.0.3 for Windows 10 &amp; 11 (64-bit)</span><span>Local OCR • Screenshot-to-Text</span></div>
+        <p>Copy. Extract. <em>Paste.</em> Local on-device screenshot-to-text OCR utility for Windows.</p>
+        <div class="status mono"><span>ClipoTxt 1.0.3 for Windows 10 & 11 (64-bit)</span><span>RapidOCR • PP-OCRv4 ONNX CPU</span></div>
       </div>
       <div><h4 class="mono">Get it</h4><ul><li><a href="${L.installer}">Windows Installer (v1.0.3)</a></li><li><a href="${L.portable}">Portable ZIP</a></li><li><a href="${L.releases}">All releases</a></li><li><a href="https://github.com/cvfoliox-dev/clipotxt-releases/releases/tag/v1.0.3">Release notes</a></li></ul></div>
       <div><h4 class="mono">Set up</h4><ul><li><a href="#setup">Setup guide</a></li><li><a href="#pricing">Free & Local</a></li><li><a href="#faq">Questions & Answers</a></li><li><a href="#next">How it works</a></li></ul></div>

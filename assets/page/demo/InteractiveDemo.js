@@ -224,7 +224,7 @@
       // Stage 02: Automatic OCR runs & displays completion notification -> advances to Stage 03
       if (!(await waitForState(id, (st) => st.stage === "paste", 6500))) return;
 
-      // 2/3: ClipoTxt logo wraps simulated editor box in white lasso & pastes extracted text
+      // 2/3: ClipoTxt logo wraps Claude Code prompt box in white lasso & pastes Markdown
       await sleep(stepGap);
       if (id !== tourRunId) return;
       if (pasteStage.editor) pasteStage.editor.focus({ preventScroll: true });

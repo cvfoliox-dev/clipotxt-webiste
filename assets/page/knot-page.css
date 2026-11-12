@@ -225,6 +225,11 @@ html.is-phone .pk-box.in {
   border-radius: 999px;
   margin-bottom: 8px;
 }
+.pk-source-badge.grok {
+  color: var(--c-4cc88c);
+  background: rgba(76, 200, 140, 0.12);
+  border: 1px solid rgba(76, 200, 140, 0.25);
+}
 .pk-source-badge.local {
   color: var(--cobalt);
   background: rgba(120, 144, 255, 0.12);

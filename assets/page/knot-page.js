@@ -1,7 +1,7 @@
 /* ClipoTxt 3D Companion Chatbot.
    1. Visual component: 3D unfolding ClipoTxt logo with spring physics (createClipoCompanion).
    2. Mechanics: 100% preserved pick-up, drag-anywhere, snap-back physics, waypoints & flight paths.
-   3. Intelligence: Full local knowledge base of ClipoTxt workflows, shortcuts, OCR, and privacy. */
+   3. Intelligence: Full knowledge of the D:\clipotxt codebase, connected to Grok API via .env or /api/chat. */
 (function () {
   if (!window.NusKnot3D) return;
   const $ = (s) => document.querySelector(s);
@@ -256,7 +256,7 @@
     ) {
       return (
         "Hello! I am the **ClipoTxt Companion**.\n\n" +
-        "I can answer any question about ClipoTxt—hotkeys, fast local OCR on CPU, Smart Format Mode, SQLite history, or 100% offline privacy.\n\n" +
+        "I can answer any question about ClipoTxt—hotkeys, local RapidOCR PP-OCRv4 CPU inference, Smart Format Mode, SQLite history, or 100% offline privacy.\n\n" +
         "Try asking: *What shortcut captures text?* or *Where can I download the installer?*"
       );
     }
@@ -310,7 +310,7 @@
         "### 100% Free Forever\n\n" +
         "- **Zero Subscriptions:** ClipoTxt is completely free for both personal and commercial use.\n" +
         "- **No Credit Cards or Accounts:** No sign-up, no login, no paywalls.\n" +
-        "- **Zero Cloud Bills:** All OCR processing runs 100% locally on your CPU.\n\n" +
+        "- **No Cloud API Bills:** All neural OCR weights run 100% locally on your CPU.\n\n" +
         "👉 [Download ClipoTxt v1.0.3 Installer](#ways)"
       );
     }
@@ -333,8 +333,8 @@
     ) {
       return (
         "### ClipoTxt Hotkeys & Shortcuts:\n\n" +
-        "- <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> — **Capture Any Screenshot:** Standard Windows capture. ClipoTxt automatically intercepts the copied screenshot with 0% idle CPU polling.\n" +
-        "- <kbd>Ctrl</kbd> + <kbd>V</kbd> — **Paste Anywhere:** Paste clean, usable extracted text directly wherever you work.\n" +
+        "- <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> — **Snip Anything:** Standard Windows capture. ClipoTxt automatically intercepts the copied image with 0% idle CPU polling.\n" +
+        "- <kbd>Ctrl</kbd> + <kbd>V</kbd> — **Instant Paste:** Paste clean extracted text or reconstructed Markdown tables directly into your editor or notes.\n" +
         "- <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd> — **Global Toggle:** Pause or resume clipboard monitoring on the fly anywhere in Windows without opening the app!"
       );
     }
@@ -357,19 +357,21 @@
     ) {
       return (
         "### Smart Format Mode\n\n" +
-        "ClipoTxt includes structured layout formatting for clean output:\n\n" +
-        "- **Structured Layout Analysis:** Organizes headings, columns, and paragraphs in their natural reading order.\n" +
-        "- **Table Formatting:** Aligns columnar text into clean, readable Markdown tables (`| Col1 | Col2 |`).\n" +
-        "- **Preserved Formatting:** Keeps lists, indentation, and structured blocks clean when pasted.\n" +
-        "- **Ready to Paste:** Copies directly to your clipboard so `Ctrl + V` works anywhere."
+        "ClipoTxt includes a deterministic layout reconstruction engine:\n\n" +
+        "- **Recursive XY-Cut:** Decomposes columns, headings, and gutters to restore true reading order.\n" +
+        "- **Table Reconstruction:** Aligns columnar text and renders formatted GitHub-flavored Markdown tables (`| Col1 | Col2 |`).\n" +
+        "- **Fenced Code Blocks:** Automatically detects syntax indentation and wraps code inside fences (` ```python `, ` ```ts `).\n" +
+        "- **Theme & Color Detection:** Analyzes light/dark UI themes and extracts dominant color palettes via K-Means (K=4)."
       );
     }
 
-    // 6. Local OCR Engine / Speed / Latency / CPU
+    // 6. Local OCR Engine / RapidOCR / PP-OCRv4 / Speed / Latency / CPU / ONNX
     if (
       anyMatch(q, [
         "ocr",
-        "local ocr",
+        "rapidocr",
+        "pp-ocr",
+        "onnx",
         "engine",
         "speed",
         "latency",
@@ -377,16 +379,17 @@
         "accuracy",
         "cpu",
         "gpu",
+        "simd",
         "performance",
       ])
     ) {
       return (
-        "### Local CPU OCR Engine\n\n" +
-        "- **Standalone Local Engine:** Built right into the app with no external downloads or accounts needed.\n" +
-        "- **Multi-Thread CPU Execution:** Processes captured screenshots directly on your Windows processor.\n" +
-        "- **Sub-Second Latency:** Typical warm extraction finishes in **~600–800 ms**.\n" +
-        "- **Zero GPU Required:** Runs smoothly on any standard 64-bit Windows desktop or laptop.\n" +
-        "- **Zero Cloud Calls:** Never uploads your screenshots anywhere."
+        "### RapidOCR PP-OCRv4 CPU Engine\n\n" +
+        "- **Local Neural Weights:** Uses PaddleOCR PP-OCRv4 optimized models bundled (~15 MB) inside the app.\n" +
+        "- **CPU ONNX Runtime:** Runs across 4 intra-op CPU threads with AVX2 SIMD acceleration.\n" +
+        "- **Sub-Second Latency:** Median warm execution is **~600–800 ms**.\n" +
+        "- **Zero GPU Required:** Runs smoothly on any standard Intel or AMD 64-bit desktop/laptop processor.\n" +
+        "- **Zero Cloud OCR Calls:** Never sends bitmaps over the internet."
       );
     }
 
@@ -486,7 +489,7 @@
         "### How ClipoTxt Works:\n\n" +
         "1. **Direct Win32 Listener:** Listens directly to Windows clipboard events with 0% idle CPU polling.\n" +
         "2. **Capture & Debounce:** When you press <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>, ClipoTxt grabs the image, hashes it with MD5 to prevent infinite clipboard loops, and verifies a sequence ID guard.\n" +
-        "3. **Local OCR & Formatting:** Extracts visible text locally on CPU (~600–800ms) and preserves structure with Smart Format Mode.\n" +
+        "3. **Local OCR & Formatting:** RapidOCR extracts text on CPU (~600–800ms) and reconstructs layout with Smart Format Mode.\n" +
         "4. **Direct Paste:** Automatically replaces the clipboard so <kbd>Ctrl</kbd> + <kbd>V</kbd> pastes clean formatted text immediately!"
       );
     }
@@ -536,8 +539,9 @@
       "window",
       "win32",
       "bharath",
-      "local",
-      "offline",
+      "onnx",
+      "model",
+      "rapidocr",
       "hotkey",
       "shortcut",
       "setting",
@@ -551,12 +555,12 @@
     if (isOnTopic) {
       return (
         "**ClipoTxt** is a 100% free, local-first on-device Windows OCR utility created by **Bharath Thommandru**.\n\n" +
-        "- Capture any screenshot with <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>\n" +
-        "- Extracts visible text locally on your Windows CPU in ~600–800 ms\n" +
-        "- Preserves structure with **Smart Format Mode** (tables, lists, clean layout)\n" +
+        "- Snip with <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>\n" +
+        "- Extracts text locally with **RapidOCR PP-OCRv4 CPU** in ~600–800 ms\n" +
+        "- Formats with **Smart Format Mode** (tables, code fences, layout)\n" +
         "- Paste anywhere with <kbd>Ctrl</kbd> + <kbd>V</kbd>\n" +
         "- Toggle on/off anytime with <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd>\n" +
-        "- 100% private, zero telemetry, local SQLite history."
+        "- 100% private, zero telemetry, local SQLite WAL history."
       );
     }
 
@@ -566,7 +570,7 @@
       "I am the specialized assistant for **ClipoTxt** by **Bharath Thommandru**. I only answer questions regarding ClipoTxt features, shortcuts, local OCR, architecture, privacy, and installation.\n\n" +
       "💡 *You can ask me about:*\n" +
       "- **Hotkeys:** *“What shortcut captures text?”* or *“How to pause?”*\n" +
-      "- **Engine:** *“How fast is local OCR on CPU?”*\n" +
+      "- **Engine:** *“How fast is RapidOCR PP-OCRv4 on CPU?”*\n" +
       "- **Privacy:** *“Is my data sent to any cloud?”*\n" +
       "- **Format:** *“What does Smart Format Mode do?”*\n" +
       "- **Download:** *“Where can I get the v1.0.3 installer?”*"
@@ -778,10 +782,32 @@
       if (focusKnot) btn.focus({ preventScroll: true });
     }
 
-    /* ---------- local question answering ---------- */
+    let grokKey = "";
+    let grokModel = "grok-beta";
+    try {
+      grokKey = localStorage.getItem("clipo_grok_key") || "";
+    } catch (e) {}
+
+    /* ---------- intelligent question answering ---------- */
     async function askClipo(query) {
       const q = query.trim();
       if (!q) return;
+
+      // Allow setting or updating API key directly in chat if user provides an xAI key
+      const keySetMatch = q.match(
+        /^(?:set\s+)?(?:grok_?)?(?:api_?)?key[:=]\s*(xai-[a-zA-Z0-9_-]+)/i,
+      );
+      if (keySetMatch) {
+        grokKey = keySetMatch[1].trim();
+        try {
+          localStorage.setItem("clipo_grok_key", grokKey);
+        } catch (e) {}
+        say.innerHTML =
+          '<div class="pk-source-badge grok">⚡ Grok Key Saved</div><p>Your Grok API key has been saved! Answers will be augmented live when online.</p>';
+        knot.setState("ready");
+        knot.gesture("done");
+        return;
+      }
 
       mode = "open";
       say.innerHTML =
@@ -792,7 +818,49 @@
       await new Promise((r) => setTimeout(r, 60));
 
       // Client-side JavaScript knowledge engine: instant, offline, domain-guarded
-      const replyText = getLocalClipoAnswer(q);
+      let replyText = getLocalClipoAnswer(q);
+      let source = "local";
+
+      // If user provided a live Grok key (starts with xai-) in localStorage, try live LLM
+      if (grokKey && grokKey.startsWith("xai-")) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 1200);
+          const systemPrompt =
+            "You are the official ClipoTxt assistant. ClipoTxt is a 100% free, local-first on-device Windows OCR utility created by Bharath Thommandru. It captures with Win+Shift+S, extracts text with RapidOCR PP-OCRv4 CPU in ~600-800ms, formats Smart Format Markdown, and pastes with Ctrl+V. Global toggle hotkey is Ctrl+Alt+O. History is stored in SQLite WAL. Zero telemetry, zero cloud calls, 100% offline. Be concise, helpful, format with Markdown.";
+          const messages = [
+            { role: "system", content: systemPrompt },
+            ...chatHistory.slice(-6),
+            { role: "user", content: q },
+          ];
+          const r = await fetch("https://api.x.ai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + grokKey,
+            },
+            body: JSON.stringify({
+              model: grokModel || "grok-beta",
+              messages: messages,
+              temperature: 0.3,
+              max_tokens: 800,
+            }),
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
+          if (r.ok) {
+            const resJson = await r.json();
+            if (
+              resJson.choices &&
+              resJson.choices[0] &&
+              resJson.choices[0].message
+            ) {
+              replyText = resJson.choices[0].message.content;
+              source = "grok";
+            }
+          }
+        } catch (e) {}
+      }
 
       chatHistory.push(
         { role: "user", content: q },
@@ -800,7 +868,10 @@
       );
       if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
 
-      const badgeHtml = '<div class="pk-source-badge local">✦ Clipo Knowledge</div>';
+      const badgeHtml =
+        source === "grok"
+          ? '<div class="pk-source-badge grok">⚡ Grok AI</div>'
+          : '<div class="pk-source-badge local">✦ Clipo Knowledge</div>';
 
       say.innerHTML = badgeHtml + "<p>" + formatMarkdown(replyText) + "</p>";
       say.scrollTop = 0;

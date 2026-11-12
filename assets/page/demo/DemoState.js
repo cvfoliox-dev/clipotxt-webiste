@@ -5,16 +5,19 @@
   const SAMPLE_DATA = {
     imageSrc: "assets/demo/sample-table.png",
     appHomeSrc: "assets/demo/app-home-active.png",
+    claudeCodeShotSrc: "assets/demo/claude-code-new-chat.png",
+    claudeLogoSrc: "assets/demo/claude-logo.svg",
     logoSrc: "assets/logo.png",
     imageDimensions: "900 × 340 px",
-    imageResolutionLabel: "0.31 MP · Sample Region",
+    imageResolutionLabel: "0.31 MP · Light Table",
     ocrElapsedMs: 571.5,
     ocrConfidencePct: 98.6,
-    engineLabel: "Local OCR · Smart Formatting · Windows CPU",
+    engineLabel: "RapidOCR · PP-OCRv4 · ONNX CPU",
     extractedMarkdown: [
       "# Screenshot Analysis",
       "",
       "## Extracted Content",
+      "### Data Table",
       "",
       "| Capability | Standard Flow | ClipoTxt Local |",
       "| :--- | :--- | :--- |",
@@ -39,7 +42,7 @@
     captureAnimating: false,
     extractPhase: "idle", // "idle" | "scanning" | "copied"
     toastVisible: false,
-    smartFormatting: true,
+    aiContextMode: true,
     pastePhase: "idle", // "idle" | "pasted"
     finishDone: false,
     tourPlaying: false,

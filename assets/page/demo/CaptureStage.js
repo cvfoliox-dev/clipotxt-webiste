@@ -15,7 +15,7 @@
         <div class="ct-desktop-bar">
           <div class="ct-desk-title">
             <span class="ct-desk-dot"></span>
-            <span>Interactive Capture Sample &middot; Any Readable Screen Region</span>
+            <span>Guided Desktop Sample · ClipoTxt Architecture Notes</span>
           </div>
           <div class="ct-desk-status mono" data-cap-listener>Clipboard Monitor: Waiting for selection</div>
         </div>
@@ -30,9 +30,9 @@
             type="button"
             class="ct-capture-region"
             data-demo-target="capture-region"
-            aria-label="Select area to capture sample screenshot"
+            aria-label="Select area to capture sample table screenshot"
           >
-            <img class="ct-sample-img" src="${DATA.imageSrc}" alt="Sample screen region ready to capture and convert into usable text" />
+            <img class="ct-sample-img" src="${DATA.imageSrc}" alt="Sample comparison table: Capability, Standard Flow, ClipoTxt Local" />
             <span class="ct-marquee-frame" aria-hidden="true">
               <span class="ct-handle tl"></span>
               <span class="ct-handle tr"></span>
@@ -140,20 +140,15 @@
     }
 
     function getGuidanceTarget(state) {
-      if (
-        state.stage !== "capture" ||
-        state.captureDone ||
-        state.captureAnimating
-      )
-        return null;
+      if (state.stage !== "capture" || state.captureDone || state.captureAnimating) return null;
       return {
         el: regionBtn,
         stepLabel: "1 / 3",
         ptrText: "Click area to capture",
         kicker: "STAGE 01 · CAPTURE",
         title: "Select an area to capture",
-        hint: "Click the highlighted region to simulate capturing any screenshot with Win + Shift + S.",
-        compactHint: "Click region to capture",
+        hint: "Click the highlighted table region to simulate Win + Shift + S.",
+        compactHint: "Click region to capture"
       };
     }
 

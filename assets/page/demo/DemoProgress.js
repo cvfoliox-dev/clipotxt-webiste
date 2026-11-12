@@ -6,31 +6,21 @@
   const META = {
     capture: { stepNum: "01", label: "Capture" },
     extract: { stepNum: "02", label: "Extract" },
-    paste: { stepNum: "03", label: "Paste" },
+    paste: { stepNum: "03", label: "Paste" }
   };
 
   function createDemoProgress(opts) {
-    const {
-      stepEls,
-      footerEl,
-      statusEl,
-      store,
-      onNavigateStage,
-      onFinish,
-      onReplay,
-    } = opts;
+    const { stepEls, footerEl, statusEl, store, onNavigateStage, onFinish, onReplay } = opts;
     const stepBtns = stepEls.map((li) => li.querySelector(".step-btn"));
 
     footerEl.innerHTML = `
       <div class="ct-prog-crumbs" aria-label="Stage navigation">
-        ${STAGES.map(
-          (s) => `
+        ${STAGES.map((s) => `
           <button type="button" class="ct-crumb" data-nav-stage="${s}">
             <span class="ct-crumb-num mono">${META[s].stepNum}</span>
             <span>${META[s].label}</span>
           </button>
-        `,
-        ).join("")}
+        `).join("")}
       </div>
       <div class="ct-prog-actions">
         <button type="button" class="ct-nav-btn" data-action="prev">Previous</button>
@@ -57,8 +47,7 @@
       const nav = e.target.closest("[data-nav-stage]");
       if (nav) {
         const s = store.getState();
-        if (nav.dataset.navStage === "paste" && s.extractPhase !== "copied")
-          return;
+        if (nav.dataset.navStage === "paste" && s.extractPhase !== "copied") return;
         onNavigateStage(nav.dataset.navStage);
         return;
       }
@@ -87,7 +76,7 @@
       const doneFlags = [
         state.captureDone,
         state.extractPhase === "copied",
-        state.pastePhase === "pasted",
+        state.pastePhase === "pasted"
       ];
 
       const ocrReady = state.extractPhase === "copied";
@@ -117,8 +106,7 @@
       });
 
       const allComplete = doneFlags[0] && doneFlags[1] && doneFlags[2];
-      const onLastDone =
-        state.stage === "paste" && state.pastePhase === "pasted";
+      const onLastDone = state.stage === "paste" && state.pastePhase === "pasted";
       prevBtn.disabled = activeIdx === 0;
       if (onLastDone || (state.stage === "paste" && allComplete)) {
         nextBtn.textContent = state.finishDone ? "Finished" : "Finish";
@@ -128,32 +116,28 @@
       } else {
         nextBtn.textContent = "Next";
         const nextStage = STAGES[activeIdx + 1];
-        nextBtn.disabled =
-          activeIdx === STAGES.length - 1 ||
-          (nextStage === "paste" && !ocrReady);
+        nextBtn.disabled = activeIdx === STAGES.length - 1 || (nextStage === "paste" && !ocrReady);
         nextBtn.classList.remove("hi", "ct-finish-nav");
       }
       replayBtn.classList.toggle("hi", Boolean(state.finishDone));
 
       if (statusEl) {
         if (state.finishDone) {
-          statusEl.innerHTML = `<b>Tour finished:</b> Capture any screenshot &rarr; Automatic local OCR &rarr; Clean text pasted via Ctrl + V.`;
+          statusEl.innerHTML = `<b>Tour finished:</b> Screenshot &rarr; Automatic PP-OCRv4 (571.5 ms) &rarr; Clean Markdown pasted into Claude Code.`;
         } else if (state.pastePhase === "pasted") {
-          statusEl.innerHTML = `<b>All 3 stages complete:</b> Extracted text pasted cleanly. Click <b>Finish</b> to wrap up.<br><button type="button" class="cta" data-status-finish>Finish</button>`;
+          statusEl.innerHTML = `<b>All 3 stages complete:</b> Extracted Markdown pasted into Claude Code. Click <b>Finish</b> to wrap up.<br><button type="button" class="cta" data-status-finish>Finish</button>`;
         } else if (state.stage === "capture") {
           statusEl.textContent = state.captureDone
-            ? "Screenshot detected on simulated clipboard — opening local OCR..."
+            ? "Screenshot detected on ClipoTxt clipboard — opening local OCR..."
             : state.guideUsedOnce
               ? "Manual replay — click the capture area on your own (refresh page to replay logo guide)."
-              : "Stage 01 — Click the highlighted region inside the simulated desktop to capture.";
+              : "Stage 01 — Click the highlighted region inside the desktop workspace to capture.";
         } else if (state.stage === "extract") {
-          statusEl.textContent =
-            state.extractPhase === "copied"
-              ? "Stage 02 — Screenshot processed automatically and copied to simulated clipboard."
-              : "Stage 02 — Detecting screenshot and extracting content locally...";
+          statusEl.textContent = state.extractPhase === "copied"
+            ? "Stage 02 — Screenshot text extracted automatically and copied to clipboard."
+            : "Stage 02 — Detecting clipboard image and extracting text locally on CPU...";
         } else {
-          statusEl.textContent =
-            "Stage 03 — Click the simulated editor and press Ctrl + V (or tap Paste Text) to paste clean text.";
+          statusEl.textContent = "Stage 03 — Focus Claude Code's prompt box and press Ctrl + V (or tap Paste Text) to insert Markdown.";
         }
       }
     }
@@ -169,9 +153,10 @@
     const unsub = store.subscribe(render);
     return {
       render,
-      destroy: unsub,
+      destroy: unsub
     };
   }
 
   window.ClipoDemo.DemoProgress = { create: createDemoProgress, STAGES };
 })();
+
