@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ClipoTxt | Copy. Extract. Paste.</title>
+    <title>ClipoTxt — Screenshot to Text Converter for Windows</title>
     <meta
       name="description"
-      content="Local on-device screenshot-to-text OCR utility for Windows. Powered by RapidOCR and PP-OCRv4 ONNX Runtime CPU. 100% free, private, and offline."
+      content="ClipoTxt converts screenshots into clean, structured text using local OCR and copies the result straight to your clipboard. A Windows desktop utility founded by Bharath Thommandru."
     />
     <meta name="author" content="Bharath Thommandru" />
     <meta
@@ -14,15 +14,32 @@
       content="SEVwETyuOLUd3gsaFD4xi7711r5Tvwe1_491q9jSwJc"
     />
     <link rel="canonical" href="https://clipotxt.pages.dev/" />
-    <meta property="og:title" content="ClipoTxt | Copy. Extract. Paste." />
+    <meta property="og:site_name" content="ClipoTxt" />
+    <meta
+      property="og:title"
+      content="ClipoTxt — Screenshot to Text Converter for Windows"
+    />
     <meta
       property="og:description"
-      content="Local on-device screenshot-to-text OCR utility for Windows. Powered by RapidOCR and PP-OCRv4 ONNX Runtime CPU. 100% free, private, and offline."
+      content="ClipoTxt converts screenshots into clean, structured text using local OCR and copies the result straight to your clipboard. A Windows desktop utility founded by Bharath Thommandru."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://clipotxt.pages.dev/" />
     <meta
       property="og:image"
+      content="https://clipotxt.pages.dev/assets/app_icon.png"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="ClipoTxt — Screenshot to Text Converter for Windows"
+    />
+    <meta
+      name="twitter:description"
+      content="ClipoTxt converts screenshots into clean, structured text using local OCR and copies the result straight to your clipboard. A Windows desktop utility founded by Bharath Thommandru."
+    />
+    <meta
+      name="twitter:image"
       content="https://clipotxt.pages.dev/assets/app_icon.png"
     />
     <meta name="theme-color" content="#060810" />
@@ -49,14 +66,39 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "ClipoTxt",
-        "url": "https://clipotxt.pages.dev/",
-        "logo": "https://clipotxt.pages.dev/assets/app_icon.png",
-        "founder": {
-          "@type": "Person",
-          "name": "Bharath Thommandru"
-        }
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://clipotxt.pages.dev/#organization",
+            "name": "ClipoTxt",
+            "url": "https://clipotxt.pages.dev/",
+            "logo": "https://clipotxt.pages.dev/assets/app_icon.png",
+            "founder": {
+              "@type": "Person",
+              "name": "Bharath Thommandru"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://clipotxt.pages.dev/#website",
+            "url": "https://clipotxt.pages.dev/",
+            "name": "ClipoTxt",
+            "publisher": {
+              "@id": "https://clipotxt.pages.dev/#organization"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://clipotxt.pages.dev/#software",
+            "name": "ClipoTxt",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Windows",
+            "description": "ClipoTxt converts screenshots into clean, structured text using local OCR and copies the result straight to your clipboard. A Windows desktop utility founded by Bharath Thommandru.",
+            "publisher": {
+              "@id": "https://clipotxt.pages.dev/#organization"
+            }
+          }
+        ]
       }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
