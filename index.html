@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ClipoTxt — Screenshot to Markdown &amp; Text Converter for Windows</title>
+    <title>
+      ClipoTxt — Screenshot to Markdown &amp; Text Converter for Windows
+    </title>
     <meta
       name="description"
       content="Uploading images can consume a lot of tokens. ClipoTxt extracts screenshot text locally into clean, structured Markdown on your clipboard. Just press Ctrl + V in ChatGPT, Claude, or any editor. Windows utility founded by Bharath Thommandru."
@@ -735,7 +737,7 @@
     <link rel="stylesheet" href="assets/page/guide.css?v=10" />
     <link rel="stylesheet" href="assets/page/nowsec.css?v=5" />
     <link rel="stylesheet" href="assets/page/faqsec.css?v=7" />
-    <link rel="stylesheet" href="assets/page/endsec.css?v=7" />
+    <link rel="stylesheet" href="assets/page/endsec.css?v=12" />
     <link rel="stylesheet" href="assets/page/motion-options.css?v=4" />
     <link rel="stylesheet" href="assets/page/lesson-ways-options.css?v=5" />
     <link rel="stylesheet" href="assets/page/ways-plans-flow.css?v=1" />
@@ -1080,7 +1082,8 @@
     <script src="assets/page/guide.js?v=10"></script>
     <script src="assets/page/nowsec.js?v=9"></script>
     <script src="assets/page/faqsec.js?v=8"></script>
-    <script src="assets/page/endsec.js?v=15"></script>
+    <script src="assets/page/dot-matrix.js?v=10"></script>
+    <script src="assets/page/endsec.js?v=19"></script>
     <script>
       // stars that twinkle
       (function () {
@@ -1193,6 +1196,12 @@
       NusFaq.mount(document.getElementById("faq"));
       NusEnd.mount(document.getElementById("start"), "full");
       NusEnd.footer(document.getElementById("footer"));
+      if (window.DotMatrixTypography) {
+        const mark = document.querySelector(".sitefoot .mark");
+        if (mark && !mark.querySelector("canvas")) {
+          new DotMatrixTypography(mark, { text: "CLIPOTXT" });
+        }
+      }
       // load-in
       document.querySelectorAll(".fade").forEach((el, i) => {
         setTimeout(() => el.classList.add("in"), 80 + i * 150);
@@ -1258,6 +1267,6 @@
     <script src="assets/page/site.js?v=3"></script>
     <script src="assets/feedback.js?v=3"></script>
     <script src="assets/page/knot-page.js?v=1"></script>
-    <script src="assets/security.js"></script>
+    <script src="assets/security.js?v=2"></script>
   </body>
 </html>

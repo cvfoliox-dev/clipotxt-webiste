@@ -51,9 +51,9 @@
 .sitefoot ul { list-style:none; display:grid; gap:10px } .sitefoot a { color:var(--mist); text-decoration:none; font-size:14.5px; display:inline-flex; align-items:center; gap:6px; transition:color .2s }
 .sitefoot a:hover { color:var(--cream) } .sitefoot a:focus-visible { outline:2px solid var(--brass); outline-offset:3px; border-radius:4px }
 .sitefoot .meta { max-width:1200px; margin:0 auto; padding:0 40px 20px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 20px; color:var(--muted); font-size:12.5px }
-.sitefoot .mark { position:relative; height:27vw; user-select:none; pointer-events:none }
-.sitefoot .mark .w { position:absolute; left:0; right:0; top:0; text-align:center; font:400 44vw/1 var(--font-display); letter-spacing:-.01em;
-  background:linear-gradient(180deg,var(--c-c6cce0) 0%,var(--c-969ec4) 22%,var(--c-606a96) 55%); -webkit-background-clip:text; background-clip:text; color:transparent; transform:translateY(calc(8vw - var(--rise,0) * 6vw)) }
-.sitefoot .mark .m { position:absolute; left:calc(49.7% - 2.95vw); top:0; width:5.9vw; height:.36vw; border-radius:99px; background:linear-gradient(90deg,var(--c-969ec8),var(--c-b0b8d8),var(--c-969ec8)); transform:translateY(calc(8vw + 3.95vw - var(--rise,0) * 6vw)) }
+.sitefoot .mark { position:relative; width:100%; min-height:180px; user-select:none; pointer-events:auto; display:block; padding:10px 0 40px; box-sizing:border-box }
+.sitefoot .clipo-particle-canvas { width:100%; height:auto; display:block; pointer-events:auto; touch-action:pan-y; cursor:default }
+.sitefoot .mark .w { position:relative; width:100%; text-align:center; font:400 18vw/1 var(--font-display); letter-spacing:-.01em; background:linear-gradient(180deg,#ffffff 0%,#eef2ff 50%,#b0bce8 100%); -webkit-background-clip:text; background-clip:text; color:transparent }
+.sitefoot .mark .m { display:none }
 @media (max-width:980px) { .sitefoot .top { grid-template-columns:1fr 1fr } .endsec.card .inner { grid-template-columns:1fr; padding:36px } }
 @media (prefers-reduced-motion: reduce) { .endsec.words h2 span, .endsec.words .after { opacity:1; filter:none; transform:none; transition:none } .endsec.card .box { animation:none } }

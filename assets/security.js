@@ -5,6 +5,15 @@
 (function () {
   "use strict";
 
+  // Allow inspection in local development environments
+  if (
+    location.hostname === "localhost" ||
+    location.hostname === "127.0.0.1" ||
+    location.protocol === "file:"
+  ) {
+    return;
+  }
+
   // 1. Disable Right-Click Context Menu
   document.addEventListener("contextmenu", function (e) {
     e.preventDefault();

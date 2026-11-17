@@ -124,46 +124,23 @@
       <div><h4 class="mono">My Work</h4><ul><li><a href="https://cvfoliox.in/" target="_blank" rel="noopener noreferrer">CVFolioX</a></li><li><a href="https://findthebuilders.pages.dev/" target="_blank" rel="noopener noreferrer">FindTheBuilders</a></li><li><a href="https://www.instagram.com/conc.eptclarity" target="_blank" rel="noopener noreferrer">Instagram (@conc.eptclarity)</a></li><li><a href="https://www.youtube.com/@setupsimplified-01" target="_blank" rel="noopener noreferrer">YouTube (@setupsimplified-01)</a></li></ul></div>
       <div><h4 class="mono">Talk to us</h4><ul><li><a href="mailto:bharathtommandru1@gmail.com">Email Bharath</a></li><li><a href="#feedback">Give feedback</a></li><li><a href="#now">Roadmap</a></li></ul></div></div>
       <div class="meta"><span>ClipoTxt, 2026</span><span>ClipoTxt — Founded by Bharath Thommandru.</span><span>Your screenshots stay on your computer. 100% local OCR processing.</span></div>
-      <div class="mark" aria-hidden="true"><div class="w" style="font-size:18vw">CLIPOTXT</div><div class="m" style="display:none"></div></div>`;
+      <div class="mark" aria-label="ClipoTxt"></div>`;
     const mark = root.querySelector(".mark");
-    const w = mark.querySelector(".w"),
-      m = mark.querySelector(".m");
-    function placeMacron() {
-      if (!m || m.style.display === "none") return;
-      const rg = document.createRange();
-      rg.setStart(w.firstChild, 1);
-      rg.setEnd(w.firstChild, 2);
-      const u = rg.getBoundingClientRect(),
-        mr = mark.getBoundingClientRect();
-      if (!u.width) return;
-      const mw = u.width * 0.5;
-      m.style.left = u.left - mr.left + (u.width - mw) / 2 + "px";
-      m.style.width = mw + "px";
+    function mountMark() {
+      if (!mark) return;
+      if (window.DotMatrixTypography) {
+        new DotMatrixTypography(mark, { text: "CLIPOTXT" });
+      } else {
+        setTimeout(() => {
+          if (window.DotMatrixTypography) {
+            new DotMatrixTypography(mark, { text: "CLIPOTXT" });
+          } else {
+            mark.innerHTML = `<div class="w">CLIPOTXT</div>`;
+          }
+        }, 100);
+      }
     }
-    let rise = -1;
-    function onScroll() {
-      const r = mark.getBoundingClientRect(),
-        v = reduce
-          ? 1
-          : +clamp((innerHeight - r.top) / (r.height + 200)).toFixed(3);
-      if (v !== rise) mark.style.setProperty("--rise", (rise = v));
-    }
-    addEventListener("resize", placeMacron);
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(
-      placeMacron,
-    );
-    placeMacron();
-    let near = false;
-    new IntersectionObserver(
-      (es) => {
-        near = es[0].isIntersecting;
-        if (near) onScroll();
-      },
-      { rootMargin: "100% 0px" },
-    ).observe(mark);
-    addEventListener("scroll", () => near && onScroll(), { passive: true });
-    addEventListener("resize", onScroll);
-    onScroll();
+    mountMark();
   }
   window.NusEnd = {
     mount: (el, kind) => ({ full, words, card })[kind](el),
